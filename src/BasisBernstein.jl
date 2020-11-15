@@ -2,7 +2,6 @@ module BasisBernstein
 
 using Plots
 
-
 """
     B(p, xi)
 
