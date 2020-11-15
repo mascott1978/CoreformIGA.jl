@@ -4,11 +4,11 @@ using Plots
 using GaussQuadrature
 using LinearAlgebra
 
-include("BernsteinBasis.jl")
-include("BsplineBasisUniformMaxSmooth.jl")
+include("BasisBernstein.jl")
+include("BasisBspline_UniformHMaxK.jl")
 include("QuadratureGauss.jl")
 include("Field.jl")
-include( "FlexRepresentationMethod1d.jl" )
+include("FlexRepresentationMethod1d.jl")
 
 function test1()
     deg = 2

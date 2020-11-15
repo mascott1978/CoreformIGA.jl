@@ -2,7 +2,7 @@ module Field
 
 using LinearAlgebra
 using Plots
-using ..BsplineBasisUniformMaxSmooth
+using ..BasisBspline_UniformHMaxK
 
 function localizeFieldToElement( e, nodes, EG )
     p = size( EG )[ 2 ] - 1
@@ -10,13 +10,13 @@ function localizeFieldToElement( e, nodes, EG )
 end
 
 function dXdxi( e, xi, nodes, ops, EG )
-    dNdxi_e = BsplineBasisUniformMaxSmooth.basisDerivatives( e, xi, ops )
+    dNdxi_e = BasisBspline_UniformHMaxK.basisDerivatives( e, xi, ops )
     P_e = localizeFieldToElement( e, nodes, EG )
     return LinearAlgebra.dot( P_e, dNdxi_e )
 end
 
 function X( e, xi, nodes, ops, EG )
-    N_e = BsplineBasisUniformMaxSmooth.basisValues( e, xi, ops )
+    N_e = BasisBspline_UniformHMaxK.basisValues( e, xi, ops )
     P_e = localizeFieldToElement( e, nodes, EG )
     return LinearAlgebra.dot( P_e, N_e )
 end

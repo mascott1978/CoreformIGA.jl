@@ -1,7 +1,7 @@
-module BsplineBasisUniformMaxSmooth
+module BasisBspline_UniformHMaxK
 
 using Plots
-using ..BernsteinBasis
+using ..BasisBernstein
 
 function build( p, elem_n  )
     ops = zeros( p + 1, ( p + 1 ) * elem_n );
@@ -19,9 +19,9 @@ end
 
 function basisValues( e, xi, ops )
     p = size( ops )[ 1 ] - 1
-    B = BernsteinBasis.basisValues( p, xi )
+    B_xi = BasisBernstein.B( p, xi )
     C_e = ops[ :, ( e - 1 ) * ( p + 1 ) + 1 : e * ( p + 1 ) ]
-    return C_e * B
+    return C_e * B_xi
 end
 
 function basisDerivative( e, a, xi, ops )
@@ -30,9 +30,9 @@ end
 
 function basisDerivatives( e, xi, ops )
     p = size( ops )[ 1 ] - 1
-    B = BernsteinBasis.basisDerivatives( p, xi )
+    dBdxi_xi = BasisBernstein.dBdxi( p, xi )
     C_e = ops[ :, ( e - 1 ) * ( p + 1 ) + 1 : e * ( p + 1 ) ]
-    return C_e * B
+    return C_e * dBdxi_xi
 end
 
 function graph!( plt, e, a, f, ops; subd = 10, flex_domain = [ 0, 1 ] )

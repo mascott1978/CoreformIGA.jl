@@ -2,7 +2,7 @@ module FlexRepresentationMethod1d
 
 using LinearAlgebra
 using Plots
-using ..BsplineBasisUniformMaxSmooth
+using ..BasisBspline_UniformHMaxK
 using ..QuadratureGauss
 using ..Field
 
@@ -17,9 +17,9 @@ end
 function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, load, traction, p_u, constraint )
 
     # spline space and nodes
-    ops, EG = BsplineBasisUniformMaxSmooth.build( deg, elem_n )
+    ops, EG = BasisBspline_UniformHMaxK.build( deg, elem_n )
     # fix this function to handle flex_domain
-    nodes = BsplineBasisUniformMaxSmooth.grevilleNodes( deg, elem_n, flex_domain )
+    nodes = BasisBspline_UniformHMaxK.grevilleNodes( deg, elem_n, flex_domain )
 
     # callbacks
     function X( e, xi )
@@ -31,11 +31,11 @@ function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, l
     end
 
     function N( e, xi )
-        return BsplineBasisUniformMaxSmooth.basisValues( e, xi, ops )
+        return BasisBspline_UniformHMaxK.basisValues( e, xi, ops )
     end
 
     function dNdxi( e, xi )
-        return BsplineBasisUniformMaxSmooth.basisDerivatives( e, xi, ops )
+        return BasisBspline_UniformHMaxK.basisDerivatives( e, xi, ops )
     end
 
     function zero_vector()
