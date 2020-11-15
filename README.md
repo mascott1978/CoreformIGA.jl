@@ -5,5 +5,5 @@ To build the CoreformIGA package perform the following steps:
 3. Start Julia by typing `julia`
 4. Activate the Julia package installation mode by typing `]`. Once in this mode type `activate .` to activate the CoreformIGA environment. To leave package mode type `Ctrl+c or Backspace`.
 5. Import CoreformIGA into your current Julia environment by typing `import CoreformIGA`.
-6. To learn the commands available in the CoreformIGA package visit [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://mascott1978.github.io/CoreformIGA.jl/dev).
+6. To learn the commands available in the CoreformIGA package visit [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://mascott1978.github.io/CoreformIGA.jl).
 
