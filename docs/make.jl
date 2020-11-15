@@ -5,7 +5,7 @@ using Documenter
 makedocs(;
     modules=[CoreformIGA],
     authors="Michael A. Scott <michael.scott@byu.edu> and contributors",
-    repo="https://github.com/mascott1978/CoreformIGA.jl/blob/{commit}{path}#L{line}",
+    repo="https://github.com/mascott1978/CoreformIGA.jl",
     sitename="CoreformIGA.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
@@ -16,4 +16,4 @@ makedocs(;
     ],
          )
 
-deploydocs(repo = "https://github.com/mascott1978/CoreformIGA.git")
+deploydocs(repo = "https://github.com/mascott1978/CoreformIGA.jl.git")
