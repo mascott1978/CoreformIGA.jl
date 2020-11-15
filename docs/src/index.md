@@ -8,6 +8,6 @@ CurrentModule = CoreformIGA
 ```
 
 ```@autodocs
-Modules = [CoreformIGA]
-basisValue(i, p, xi)
+Modules = [CoreformIGA BernsteinBasis]
+BernsteinBasis.basisValue(i, p, xi)
 ```

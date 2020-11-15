@@ -14,4 +14,12 @@ makedocs(;
     pages=[
         "Home" => "index.md",
     ],
+         )
+
+deploydocs(
+    repo = "https://github.com/mascott1978/CoreformIGA.git",
+    forcepush = true,
+    branch = "master",
+    latest = "master",
+    target = "build",
 )

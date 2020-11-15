@@ -5,7 +5,7 @@ using Plots
 """
     basisValue(i, p, xi)
 
-hi
+``dx = 5``
 """
 function basisValue( i, p, xi )
     return binomial( p, i ) * xi^i * ( 1 - xi )^( p - i )
