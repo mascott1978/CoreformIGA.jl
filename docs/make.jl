@@ -16,4 +16,4 @@ makedocs(;
     ],
          )
 
-deploydocs(repo = "https://github.com/mascott1978/CoreformIGA.jl.git")
+deploydocs(repo = "git@github.com:mascott1978/CoreformIGA.jl.git")
