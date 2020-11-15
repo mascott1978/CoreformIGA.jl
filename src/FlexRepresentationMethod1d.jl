@@ -1,11 +1,10 @@
 module FlexRepresentationMethod1d
 
-include("BsplineBasisUniformMaxSmooth.jl")
-include("QuadratureGauss.jl")
-include("Field.jl")
-
 using LinearAlgebra
 using Plots
+using ..BsplineBasisUniformMaxSmooth
+using ..QuadratureGauss
+using ..Field
 
 
 struct quad_point

@@ -1,7 +1,7 @@
 module BsplineBasisUniformMaxSmooth
 
-include("BernsteinBasis.jl")
 using Plots
+using ..BernsteinBasis
 
 function build( p, elem_n  )
     ops = zeros( p + 1, ( p + 1 ) * elem_n );

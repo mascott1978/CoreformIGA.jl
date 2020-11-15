@@ -1,8 +1,8 @@
 module Field
 
-include("BsplineBasisUniformMaxSmooth.jl")
 using LinearAlgebra
 using Plots
+using ..BsplineBasisUniformMaxSmooth
 
 function localizeFieldToElement( e, nodes, EG )
     p = size( EG )[ 2 ] - 1

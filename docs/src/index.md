@@ -9,4 +9,5 @@ CurrentModule = CoreformIGA
 
 ```@autodocs
 Modules = [CoreformIGA]
+basisValue(i, p, xi)
 ```

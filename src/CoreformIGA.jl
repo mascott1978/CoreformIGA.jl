@@ -1,14 +1,14 @@
 module CoreformIGA
 
-# Write your package code here.
-
 using Plots
 using GaussQuadrature
 using LinearAlgebra
 
+include("BernsteinBasis.jl")
+include("BsplineBasisUniformMaxSmooth.jl")
+include("QuadratureGauss.jl")
+include("Field.jl")
 include( "FlexRepresentationMethod1d.jl" )
-
-greet() = print("Hello World!")
 
 function test1()
     deg = 2
@@ -30,7 +30,6 @@ function test1()
     function constraint( x )
         return 0
     end
-    
     FlexRepresentationMethod1d.solve( deg, elem_n, quad_rules, flex_domain,
                                       p_cad, cad_domain, E, A, load, traction, p_u, constraint )
 end
