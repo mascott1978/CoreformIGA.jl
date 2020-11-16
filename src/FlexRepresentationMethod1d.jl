@@ -79,7 +79,7 @@ function solve( layout, nodes, quad_rules, p_cad, cad_domain, E, A, load, tracti
     G = assembleG!( closest_point, cad_domain, X, constraint, G )
     H = assembleH!( closest_point, cad_domain, N, X, id_map, p_u, constraint, H )
 
-    #Uzawa iteration
+    # Uzawa iteration
     count = 30
     d_curr = zero_vector()
     lambda_curr = zeros( 1 )
@@ -90,16 +90,7 @@ function solve( layout, nodes, quad_rules, p_cad, cad_domain, E, A, load, tracti
         rhs_2 = p_u .* ( transpose(B) * d_curr - G)
         lambda_curr = lambda_curr + rhs_2
     end
-
-    println( "FINAL d: ", d_curr )
-    println( "FINAL lambda: ", lambda_curr )
     return d_curr, lambda_curr
-
-    #plt = Plots.plot()
-    #for e in 1:elem_n
-     #   Field.plot!( plt, layout, nodes, d_curr, e, Field.F )
-    #end
-    #plt
 end
 
 function assembleK!( quad_points, dNdxi, X, dXdxi, chi, id_map, E, A, K )
