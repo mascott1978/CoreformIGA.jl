@@ -13,12 +13,7 @@ struct quad_point
     qw::Float64
 end
 
-function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, load, traction, p_u, constraint )
-
-    layout = BasisSpline.buildUniformHMaxK( deg, elem_n, domain = flex_domain )
-    nodes = BasisSpline.nodesEquallySpaced( layout )
-    println( "layout: ", layout )
-    println( "nodes: ", nodes )
+function solve( layout, nodes, quad_rules, p_cad, cad_domain, E, A, load, traction, p_u, constraint )
 
     # callbacks
     function X( e, xi )
@@ -70,7 +65,6 @@ function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, l
         end
     end
 
-
     # assemble linear systems
     K = zero_matrix()
     M = zero_matrix()
@@ -85,13 +79,6 @@ function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, l
     G = assembleG!( closest_point, cad_domain, X, constraint, G )
     H = assembleH!( closest_point, cad_domain, N, X, id_map, p_u, constraint, H )
 
-    #println( "K: ", K )
-    #println( "M: ", M )
-    #println( "B: ", B )
-    #println( "F: ", F )
-    #println( "G: ", G )
-    #println( "H: ", H )
-
     #Uzawa iteration
     count = 30
     d_curr = zero_vector()
@@ -102,18 +89,17 @@ function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, l
         d_curr = K \ rhs_1
         rhs_2 = p_u .* ( transpose(B) * d_curr - G)
         lambda_curr = lambda_curr + rhs_2
-        #println( "d_curr: ", d_curr )
-        #println( "lambda_curr: ", lambda_curr )
     end
 
     println( "FINAL d: ", d_curr )
     println( "FINAL lambda: ", lambda_curr )
+    return d_curr, lambda_curr
 
-    plt = Plots.plot()
-    for e in 1:elem_n
-        Field.plot!( plt, layout, nodes, d_curr, e, Field.F )
-    end
-    plt
+    #plt = Plots.plot()
+    #for e in 1:elem_n
+     #   Field.plot!( plt, layout, nodes, d_curr, e, Field.F )
+    #end
+    #plt
 end
 
 function assembleK!( quad_points, dNdxi, X, dXdxi, chi, id_map, E, A, K )
