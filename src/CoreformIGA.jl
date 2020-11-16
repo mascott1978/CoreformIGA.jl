@@ -5,18 +5,18 @@ using GaussQuadrature
 using LinearAlgebra
 
 include("BasisBernstein.jl")
-include("BasisBspline_UniformHMaxK.jl")
+include("BasisSpline.jl")
 include("QuadratureGauss.jl")
 include("Field.jl")
 include("FlexRepresentationMethod1d.jl")
 
 function test1()
     deg = 2
-    elem_n = 20
+    elem_n = 10
     quad_rule = 3
     quad_rules = [ quad_rule for i in 1:elem_n ]
     cad_domain = [ 1, 2 ]
-    flex_domain = [ 0, 3 ]
+    flex_domain = [ 1, 3 ]
     p_cad = 1e-12
     p_u = 1
     E = 1

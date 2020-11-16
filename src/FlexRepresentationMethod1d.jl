@@ -2,7 +2,7 @@ module FlexRepresentationMethod1d
 
 using LinearAlgebra
 using Plots
-using ..BasisBspline_UniformHMaxK
+using ..BasisSpline
 using ..QuadratureGauss
 using ..Field
 
@@ -13,41 +13,40 @@ struct quad_point
     qw::Float64
 end
 
-
 function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, load, traction, p_u, constraint )
 
-    # spline space and nodes
-    ops, EG = BasisBspline_UniformHMaxK.build( deg, elem_n )
-    # fix this function to handle flex_domain
-    nodes = BasisBspline_UniformHMaxK.grevilleNodes( deg, elem_n, flex_domain )
+    layout = BasisSpline.buildUniformHMaxK( deg, elem_n, domain = flex_domain )
+    nodes = BasisSpline.nodesEquallySpaced( layout )
+    println( "layout: ", layout )
+    println( "nodes: ", nodes )
 
     # callbacks
     function X( e, xi )
-        return Field.X( e, xi, nodes, ops, EG )
+        return Field.F( layout, nodes, e, xi )
     end
 
     function dXdxi( e, xi )
-        return Field.dXdxi( e, xi, nodes, ops, EG )
+        return Field.dFdxi( layout, nodes, e, xi )
     end
 
     function N( e, xi )
-        return BasisBspline_UniformHMaxK.basisValues( e, xi, ops )
+        return BasisSpline.N( layout, e, xi )
     end
 
     function dNdxi( e, xi )
-        return BasisBspline_UniformHMaxK.basisDerivatives( e, xi, ops )
+        return BasisSpline.dNdxi( layout, e, xi )
     end
 
     function zero_vector()
-        return zeros( size( nodes )[ 1 ], 1 )
+        return zeros( layout.func_n, 1 )
     end
 
     function zero_matrix()
-        return zeros( size( nodes )[ 1 ], size( nodes )[ 1 ] )
+        return zeros( layout.func_n, layout.func_n )
     end
 
     function id_map( e, a )
-        return EG[ e, a ]
+        return layout.EG[ e, a ]
     end
 
     # quadrature points
@@ -60,7 +59,7 @@ function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, l
 
     # geometry processing
     function closest_point( x )
-        return Field.closestPoint( x, nodes, ops, EG )
+        return Field.closestPoint( layout, nodes, x )
     end
 
     function chi( x )
@@ -112,7 +111,7 @@ function solve( deg, elem_n, quad_rules, flex_domain, p_cad, cad_domain, E, A, l
 
     plt = Plots.plot()
     for e in 1:elem_n
-        Field.graph!( plt, e, nodes, d_curr, ops, EG )
+        Field.plot!( plt, layout, nodes, d_curr, e, Field.F )
     end
     plt
 end
