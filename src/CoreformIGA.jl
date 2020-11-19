@@ -1,12 +1,9 @@
 module CoreformIGA
 
-using Plots
-using GaussQuadrature
-using LinearAlgebra
-
+include("Assemble.jl")
+include("QuadratureGauss.jl")
 include("BasisBernstein.jl")
 include("BasisSpline.jl")
-include("QuadratureGauss.jl")
 include("Field.jl")
 include("FlexRepresentationMethod1d.jl")
 

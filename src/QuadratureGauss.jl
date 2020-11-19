@@ -1,5 +1,11 @@
 module QuadratureGauss
 
+struct quad_point
+    e::Int
+    qp::Float64
+    qw::Float64
+end
+
 using GaussQuadrature
 
 function legendreRule( rule )
@@ -19,7 +25,11 @@ function legendreLayout( rules )
         append!( IE, [e for i in 1:rule] )
         e += 1
     end
-    return qp, qw, IE
+    quad_points = Array{ quad_point, 1 }( undef, size( qp )[ 1 ] )
+    for i in 1:size( qp )[ 1 ]
+        quad_points[ i ] = quad_point( IE[ i ], qp[ i ], qw[ i ] )
+    end
+    return quad_points
 end
 
 end
