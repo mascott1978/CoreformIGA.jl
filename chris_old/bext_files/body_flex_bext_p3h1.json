@@ -1,0 +1,69 @@
+{
+  "patch_id": 0,
+  "dim": 1,
+  "num_nodes": 5,
+  "num_elems": 2,
+  "is_rational": false,
+  "nodes": [
+    [ 1.80411e-16, 0, 0, 1 ], 
+    [ 0.166667, 0, 0, 1 ], 
+    [ 0.5, 0, 0, 1 ], 
+    [ 0.833333, 0, 0, 1 ], 
+    [ 1, 0, 0, 1 ]
+  ],
+  "elements": {
+    "num_elem_blocks": 1,
+    "element_block_info": [ {
+      "element_type": "Cube",
+      "num_elems": 2,
+      "num_nodes": 4,
+      "num_coefficient_vectors": 4,
+      "deg_s": 3,
+      "deg_t": -1,
+      "deg_u": -1
+    } ],
+    "element_blocks": [ {
+      "node_ids": [ 0, 1, 2, 3 ],
+      "coeff_vector_ids": [ 7, 3, 2, 0 ]
+    },
+    {
+      "node_ids": [ 1, 2, 3, 4 ],
+      "coeff_vector_ids": [ 4, 6, 5, 1 ]
+    } ]
+  },
+  "coefficients": {
+    "num_dense_coeff_blocks": 1,
+    "num_sparse_coeff_blocks": 0,
+    "dense_vector_info": [ {
+      "num_coeff_vectors": 8,
+      "num_components": 4
+    } ],
+    "sparse_vector_info": [  ],
+    "dense_coefficient_vectors": [ {
+      "components": [ 0, 0, 0, 0.25 ]
+    },
+    {
+      "components": [ 0, 0, 0, 1 ]
+    },
+    {
+      "components": [ 0, 0, 0.5, 0.5 ]
+    },
+    {
+      "components": [ 0, 1, 0.5, 0.25 ]
+    },
+    {
+      "components": [ 0.25, 0, 0, 0 ]
+    },
+    {
+      "components": [ 0.25, 0.5, 1, 0 ]
+    },
+    {
+      "components": [ 0.5, 0.5, 0, 0 ]
+    },
+    {
+      "components": [ 1, 0, 0, 0 ]
+    } ],
+    "sparse_coefficient_vectors": [  ]
+  },
+  "num_coeff_vecs": 8
+}

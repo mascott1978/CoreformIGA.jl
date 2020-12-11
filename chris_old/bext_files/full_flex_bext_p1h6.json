@@ -1,0 +1,359 @@
+{
+  "patch_id": 0,
+  "dim": 1,
+  "num_nodes": 65,
+  "num_elems": 64,
+  "is_rational": false,
+  "nodes": [
+    [ -3.14159, 0, 0, 1 ], 
+    [ -3.04342, 0, 0, 1 ], 
+    [ -2.94524, 0, 0, 1 ], 
+    [ -2.84707, 0, 0, 1 ], 
+    [ -2.74889, 0, 0, 1 ], 
+    [ -2.65072, 0, 0, 1 ], 
+    [ -2.55254, 0, 0, 1 ], 
+    [ -2.45437, 0, 0, 1 ], 
+    [ -2.35619, 0, 0, 1 ], 
+    [ -2.25802, 0, 0, 1 ], 
+    [ -2.15984, 0, 0, 1 ], 
+    [ -2.06167, 0, 0, 1 ], 
+    [ -1.9635, 0, 0, 1 ], 
+    [ -1.86532, 0, 0, 1 ], 
+    [ -1.76715, 0, 0, 1 ], 
+    [ -1.66897, 0, 0, 1 ], 
+    [ -1.5708, 0, 0, 1 ], 
+    [ -1.47262, 0, 0, 1 ], 
+    [ -1.37445, 0, 0, 1 ], 
+    [ -1.27627, 0, 0, 1 ], 
+    [ -1.1781, 0, 0, 1 ], 
+    [ -1.07992, 0, 0, 1 ], 
+    [ -0.981748, 0, 0, 1 ], 
+    [ -0.883573, 0, 0, 1 ], 
+    [ -0.785398, 0, 0, 1 ], 
+    [ -0.687223, 0, 0, 1 ], 
+    [ -0.589049, 0, 0, 1 ], 
+    [ -0.490874, 0, 0, 1 ], 
+    [ -0.392699, 0, 0, 1 ], 
+    [ -0.294524, 0, 0, 1 ], 
+    [ -0.19635, 0, 0, 1 ], 
+    [ -0.0981748, 0, 0, 1 ], 
+    [ 0, 0, 0, 1 ], 
+    [ 0.0981748, 0, 0, 1 ], 
+    [ 0.19635, 0, 0, 1 ], 
+    [ 0.294524, 0, 0, 1 ], 
+    [ 0.392699, 0, 0, 1 ], 
+    [ 0.490874, 0, 0, 1 ], 
+    [ 0.589049, 0, 0, 1 ], 
+    [ 0.687223, 0, 0, 1 ], 
+    [ 0.785398, 0, 0, 1 ], 
+    [ 0.883573, 0, 0, 1 ], 
+    [ 0.981748, 0, 0, 1 ], 
+    [ 1.07992, 0, 0, 1 ], 
+    [ 1.1781, 0, 0, 1 ], 
+    [ 1.27627, 0, 0, 1 ], 
+    [ 1.37445, 0, 0, 1 ], 
+    [ 1.47262, 0, 0, 1 ], 
+    [ 1.5708, 0, 0, 1 ], 
+    [ 1.66897, 0, 0, 1 ], 
+    [ 1.76715, 0, 0, 1 ], 
+    [ 1.86532, 0, 0, 1 ], 
+    [ 1.9635, 0, 0, 1 ], 
+    [ 2.06167, 0, 0, 1 ], 
+    [ 2.15984, 0, 0, 1 ], 
+    [ 2.25802, 0, 0, 1 ], 
+    [ 2.35619, 0, 0, 1 ], 
+    [ 2.45437, 0, 0, 1 ], 
+    [ 2.55254, 0, 0, 1 ], 
+    [ 2.65072, 0, 0, 1 ], 
+    [ 2.74889, 0, 0, 1 ], 
+    [ 2.84707, 0, 0, 1 ], 
+    [ 2.94524, 0, 0, 1 ], 
+    [ 3.04342, 0, 0, 1 ], 
+    [ 3.14159, 0, 0, 1 ]
+  ],
+  "elements": {
+    "num_elem_blocks": 1,
+    "element_block_info": [ {
+      "element_type": "Cube",
+      "num_elems": 64,
+      "num_nodes": 2,
+      "num_coefficient_vectors": 2,
+      "deg_s": 1,
+      "deg_t": -1,
+      "deg_u": -1
+    } ],
+    "element_blocks": [ {
+      "node_ids": [ 48, 49 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 33, 34 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 34, 35 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 35, 36 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 36, 37 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 37, 38 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 38, 39 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 39, 40 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 40, 41 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 41, 42 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 42, 43 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 43, 44 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 44, 45 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 45, 46 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 46, 47 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 47, 48 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 32, 33 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 49, 50 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 50, 51 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 51, 52 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 52, 53 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 53, 54 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 54, 55 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 55, 56 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 56, 57 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 57, 58 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 58, 59 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 59, 60 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 60, 61 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 61, 62 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 62, 63 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 63, 64 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 16, 17 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 1, 2 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 2, 3 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 3, 4 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 4, 5 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 5, 6 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 6, 7 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 7, 8 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 8, 9 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 9, 10 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 10, 11 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 11, 12 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 12, 13 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 13, 14 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 14, 15 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 15, 16 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 0, 1 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 17, 18 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 18, 19 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 19, 20 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 20, 21 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 21, 22 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 22, 23 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 23, 24 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 24, 25 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 25, 26 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 26, 27 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 27, 28 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 28, 29 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 29, 30 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 30, 31 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    },
+    {
+      "node_ids": [ 31, 32 ],
+      "coeff_vector_ids": [ 1, 0 ]
+    } ]
+  },
+  "coefficients": {
+    "num_dense_coeff_blocks": 1,
+    "num_sparse_coeff_blocks": 0,
+    "dense_vector_info": [ {
+      "num_coeff_vectors": 2,
+      "num_components": 2
+    } ],
+    "sparse_vector_info": [  ],
+    "dense_coefficient_vectors": [ {
+      "components": [ 0, 1 ]
+    },
+    {
+      "components": [ 1, 0 ]
+    } ],
+    "sparse_coefficient_vectors": [  ]
+  },
+  "num_coeff_vecs": 2
+}

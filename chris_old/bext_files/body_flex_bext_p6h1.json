@@ -1,0 +1,90 @@
+{
+  "patch_id": 0,
+  "dim": 1,
+  "num_nodes": 8,
+  "num_elems": 2,
+  "is_rational": false,
+  "nodes": [
+    [ 1.75554e-15, 0, 0, 1 ], 
+    [ 0.0833333, 0, 0, 1 ], 
+    [ 0.25, 0, 0, 1 ], 
+    [ 0.416667, 0, 0, 1 ], 
+    [ 0.583333, 0, 0, 1 ], 
+    [ 0.75, 0, 0, 1 ], 
+    [ 0.916667, 0, 0, 1 ], 
+    [ 1, 0, 0, 1 ]
+  ],
+  "elements": {
+    "num_elem_blocks": 1,
+    "element_block_info": [ {
+      "element_type": "Cube",
+      "num_elems": 2,
+      "num_nodes": 7,
+      "num_coefficient_vectors": 7,
+      "deg_s": 6,
+      "deg_t": -1,
+      "deg_u": -1
+    } ],
+    "element_blocks": [ {
+      "node_ids": [ 0, 1, 2, 3, 4, 5, 6 ],
+      "coeff_vector_ids": [ 13, 6, 5, 4, 3, 2, 0 ]
+    },
+    {
+      "node_ids": [ 1, 2, 3, 4, 5, 6, 7 ],
+      "coeff_vector_ids": [ 7, 9, 11, 12, 10, 8, 1 ]
+    } ]
+  },
+  "coefficients": {
+    "num_dense_coeff_blocks": 1,
+    "num_sparse_coeff_blocks": 0,
+    "dense_vector_info": [ {
+      "num_coeff_vectors": 14,
+      "num_components": 7
+    } ],
+    "sparse_vector_info": [  ],
+    "dense_coefficient_vectors": [ {
+      "components": [ 0, 0, 0, 0, 0, 0, 0.03125 ]
+    },
+    {
+      "components": [ 0, 0, 0, 0, 0, 0, 1 ]
+    },
+    {
+      "components": [ 0, 0, 0, 0, 0, 0.0625, 0.15625 ]
+    },
+    {
+      "components": [ 0, 0, 0, 0, 0.125, 0.25, 0.3125 ]
+    },
+    {
+      "components": [ 0, 0, 0, 0.25, 0.375, 0.375, 0.3125 ]
+    },
+    {
+      "components": [ 0, 0, 0.5, 0.5, 0.375, 0.25, 0.15625 ]
+    },
+    {
+      "components": [ 0, 1, 0.5, 0.25, 0.125, 0.0625, 0.03125 ]
+    },
+    {
+      "components": [ 0.03125, 0, 0, 0, 0, 0, 0 ]
+    },
+    {
+      "components": [ 0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 0 ]
+    },
+    {
+      "components": [ 0.15625, 0.0625, 0, 0, 0, 0, 0 ]
+    },
+    {
+      "components": [ 0.15625, 0.25, 0.375, 0.5, 0.5, 0, 0 ]
+    },
+    {
+      "components": [ 0.3125, 0.25, 0.125, 0, 0, 0, 0 ]
+    },
+    {
+      "components": [ 0.3125, 0.375, 0.375, 0.25, 0, 0, 0 ]
+    },
+    {
+      "components": [ 1, 0, 0, 0, 0, 0, 0 ]
+    } ],
+    "sparse_coefficient_vectors": [  ]
+  },
+  "num_coeff_vecs": 14
+}

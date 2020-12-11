@@ -1,0 +1,157 @@
+{
+  "patch_id": 0,
+  "dim": 1,
+  "num_nodes": 19,
+  "num_elems": 16,
+  "is_rational": false,
+  "nodes": [
+    [ 3.90313e-17, 0, 0, 1 ], 
+    [ 0.0208333, 0, 0, 1 ], 
+    [ 0.0625, 0, 0, 1 ], 
+    [ 0.125, 0, 0, 1 ], 
+    [ 0.1875, 0, 0, 1 ], 
+    [ 0.25, 0, 0, 1 ], 
+    [ 0.3125, 0, 0, 1 ], 
+    [ 0.375, 0, 0, 1 ], 
+    [ 0.4375, 0, 0, 1 ], 
+    [ 0.5, 0, 0, 1 ], 
+    [ 0.5625, 0, 0, 1 ], 
+    [ 0.625, 0, 0, 1 ], 
+    [ 0.6875, 0, 0, 1 ], 
+    [ 0.75, 0, 0, 1 ], 
+    [ 0.8125, 0, 0, 1 ], 
+    [ 0.875, 0, 0, 1 ], 
+    [ 0.9375, 0, 0, 1 ], 
+    [ 0.979167, 0, 0, 1 ], 
+    [ 1, 0, 0, 1 ]
+  ],
+  "elements": {
+    "num_elem_blocks": 1,
+    "element_block_info": [ {
+      "element_type": "Cube",
+      "num_elems": 16,
+      "num_nodes": 4,
+      "num_coefficient_vectors": 4,
+      "deg_s": 3,
+      "deg_t": -1,
+      "deg_u": -1
+    } ],
+    "element_blocks": [ {
+      "node_ids": [ 0, 1, 2, 3 ],
+      "coeff_vector_ids": [ 13, 4, 3, 0 ]
+    },
+    {
+      "node_ids": [ 1, 2, 3, 4 ],
+      "coeff_vector_ids": [ 8, 11, 7, 0 ]
+    },
+    {
+      "node_ids": [ 2, 3, 4, 5 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 3, 4, 5, 6 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 4, 5, 6, 7 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 5, 6, 7, 8 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 6, 7, 8, 9 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 7, 8, 9, 10 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 8, 9, 10, 11 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 9, 10, 11, 12 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 10, 11, 12, 13 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 11, 12, 13, 14 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 12, 13, 14, 15 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 13, 14, 15, 16 ],
+      "coeff_vector_ids": [ 5, 12, 7, 0 ]
+    },
+    {
+      "node_ids": [ 14, 15, 16, 17 ],
+      "coeff_vector_ids": [ 5, 12, 6, 1 ]
+    },
+    {
+      "node_ids": [ 15, 16, 17, 18 ],
+      "coeff_vector_ids": [ 5, 10, 9, 2 ]
+    } ]
+  },
+  "coefficients": {
+    "num_dense_coeff_blocks": 1,
+    "num_sparse_coeff_blocks": 0,
+    "dense_vector_info": [ {
+      "num_coeff_vectors": 14,
+      "num_components": 4
+    } ],
+    "sparse_vector_info": [  ],
+    "dense_coefficient_vectors": [ {
+      "components": [ 0, 0, 0, 0.166667 ]
+    },
+    {
+      "components": [ 0, 0, 0, 0.25 ]
+    },
+    {
+      "components": [ 0, 0, 0, 1 ]
+    },
+    {
+      "components": [ 0, 0, 0.5, 0.583333 ]
+    },
+    {
+      "components": [ 0, 1, 0.5, 0.25 ]
+    },
+    {
+      "components": [ 0.166667, 0, 0, 0 ]
+    },
+    {
+      "components": [ 0.166667, 0.333333, 0.666667, 0.583333 ]
+    },
+    {
+      "components": [ 0.166667, 0.333333, 0.666667, 0.666667 ]
+    },
+    {
+      "components": [ 0.25, 0, 0, 0 ]
+    },
+    {
+      "components": [ 0.25, 0.5, 1, 0 ]
+    },
+    {
+      "components": [ 0.583333, 0.5, 0, 0 ]
+    },
+    {
+      "components": [ 0.583333, 0.666667, 0.333333, 0.166667 ]
+    },
+    {
+      "components": [ 0.666667, 0.666667, 0.333333, 0.166667 ]
+    },
+    {
+      "components": [ 1, 0, 0, 0 ]
+    } ],
+    "sparse_coefficient_vectors": [  ]
+  },
+  "num_coeff_vecs": 14
+}
