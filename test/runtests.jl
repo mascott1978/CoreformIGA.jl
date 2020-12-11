@@ -16,14 +16,34 @@ using Test
         @test CoreformIGA.BasisBernstein.dBdxi( 1, 0.5 )[ 1 ] == -1
         @test CoreformIGA.BasisBernstein.dBdxi( 1, 0.5 )[ 2 ] == 1
     end
-    @testset "BasisSpline.jl" begin
-        layout = CoreformIGA.BasisMesh.buildBspline1d( 1, 2 )
-        extraction_operator( e ) = layout.ops[ :, ( e - 1 ) * ( layout.degrees[ e ] + 1 ) + 1 : e * ( layout.degrees[ e ] + 1 ) ]
-        @test CoreformIGA.BasisSpline.evaluate( 1, 1, 0.5, extraction_operator, CoreformIGA.BasisBernstein.B )[ 1 ] == 1.0/2.0
-    end
-    @testset "Field.jl" begin
-        layout = CoreformIGA.BasisMesh.buildBspline1d( 1, 2 )
-        extraction_operator( e ) = layout.ops[ :, ( e - 1 ) * ( layout.degrees[ e ] + 1 ) + 1 : e * ( layout.degrees[ e ] + 1 ) ]
-        basis_evaluator( e, xi ) = CoreformIGA.BasisSpline.evaluate( e, layout.degrees[ e ], xi, extraction_operator, CoreformIGA.BasisBernstein.B )
+    @testset "BasisMesh.jl" begin
+        layout = CoreformIGA.BasisMesh.layout_bspline_1d_uniform_h_max_k( 1, 2 )
+        bm_fc = CoreformIGA.BasisMesh.function_collection( layout )
+        @test bm_fc.element_count() == 2
+        @test bm_fc.global_function_count() == 3
+        @test bm_fc.global_function_count_on_element( 1 ) == 2
+        @test bm_fc.global_function_count_on_element( 2 ) == 2
+        @test bm_fc.local_function_count_on_element( 1 ) == 2
+        @test bm_fc.local_function_count_on_element( 2 ) == 2
+        @test bm_fc.global_function_ids_on_element( 1 )[ 1 ] == 1
+        @test bm_fc.global_function_ids_on_element( 1 )[ 2 ] == 2
+        @test bm_fc.global_function_ids_on_element( 2 )[ 1 ] == 2
+        @test bm_fc.global_function_ids_on_element( 2 )[ 2 ] == 3
+        @test bm_fc.parametric_map_value( 1, 0.5 ) == 0.25
+        @test bm_fc.parametric_map_value( 2, 0.5 ) == 0.75
+        @test bm_fc.parametric_map_gradient( 1, 0.5 ) == 0.5
+        @test bm_fc.parametric_map_gradient( 2, 0.5 ) == 0.5
+        @test bm_fc.extraction_operator_on_element( 1 )[ 1, 1 ] == 1.0
+        @test bm_fc.extraction_operator_on_element( 1 )[ 1, 2 ] == 0.0
+        @test bm_fc.extraction_operator_on_element( 1 )[ 2, 1 ] == 0.0
+        @test bm_fc.extraction_operator_on_element( 1 )[ 2, 2 ] == 1.0
+        @test bm_fc.extraction_operator_on_element( 2 )[ 1, 1 ] == 1.0
+        @test bm_fc.extraction_operator_on_element( 2 )[ 1, 2 ] == 0.0
+        @test bm_fc.extraction_operator_on_element( 2 )[ 2, 1 ] == 0.0
+        @test bm_fc.extraction_operator_on_element( 2 )[ 2, 2 ] == 1.0
+        @test isapprox( bm_fc.local_basis_value( 1, 0.5 )[ 1 ], 0.5 )
+        @test isapprox( bm_fc.local_basis_value( 1, 0.5 )[ 2 ], 0.5 )
+        @test bm_fc.local_basis_parametric_gradient( 1, 0.5 )[ 1 ] == -1.0
+        @test bm_fc.local_basis_parametric_gradient( 1, 0.5 )[ 2 ] == 1.0
     end
 end

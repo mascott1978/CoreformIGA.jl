@@ -51,7 +51,7 @@ function geometric_map_inversion( bm_fc,
                                   field_fc,
                                   geometric_map_inversion_predictor::Function,
                                   norm::Function,
-                                  solver_linear::Function
+                                  solver_linear::Function,
                                   solver_nonlinear::Function )
     function geometric_map_inversion( x, e_x::Integer, xi_x )
         e::Integer, xi = geometric_map_inversion_predictor( x )

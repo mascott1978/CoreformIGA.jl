@@ -1,8 +1,11 @@
 module Assembler
 
-function assembleInnerProduct!( i_fc::FunctionCollectionIntegral,
-                                fs_test_fc::FunctionCollectionFunctionSpace,
-                                fs_trial_fc::FunctionCollectionFunctionSpace, M )
+import ..Integral
+import ..FunctionSpace
+
+function assembleInnerProduct!( i_fc::Integral.FunctionCollectionIntegral,
+                                fs_test_fc::FunctionSpace.FunctionCollectionFunctionSpace,
+                                fs_trial_fc::FunctionSpace.FunctionCollectionFunctionSpace, M )
     for i in 1 : i_fc.quadrature_point_count()
         e_i, xi_i = i_fc.quadrature_point( i )
         x_i = i_fc.geometry_value( e_i, xi_i )
@@ -25,8 +28,8 @@ function assembleInnerProduct!( i_fc::FunctionCollectionIntegral,
 
 end
 
-function assembleProjection!( i_fc::FunctionCollectionIntegral,
-                              fs_test_fc::FunctionCollectionFunctionSpace, F )
+function assembleProjection!( i_fc::Integral.FunctionCollectionIntegral,
+                              fs_test_fc::FunctionSpace.FunctionCollectionFunctionSpace, F )
 
     for i in 1 : i_fc.quadrature_point_count()
         e_i, xi_i = i_fc.quadrature_point( i )

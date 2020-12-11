@@ -1,6 +1,6 @@
 module BasisMesh
 
-..BasisBernstein
+import ..BasisBernstein
 
 struct Layout
     domain
@@ -31,7 +31,7 @@ function layout_bspline_0d()
     return bspline_uniform_h_max_k( 0, 1, [ 0, 0 ] )
 end
 
-function layout_bspline_1d_uniform_h_max_k( p::Integer, elem_n::Integer; domain::Array{Real, 1} = [ 0.0, 1.0 ] )
+function layout_bspline_1d_uniform_h_max_k( p::Integer, elem_n::Integer; domain = [ 0.0, 1.0 ] )
     elem_size = ( domain[ 2 ] - domain[ 1 ] ) / elem_n
     lengths = [ elem_size for i in 1 : elem_n ]
     starts = zeros( elem_n );
@@ -77,11 +77,11 @@ function global_function_count( layout::Layout )
 end
 
 function global_function_count_on_element( layout::Layout )
-    return global_function_count_on_element( e ) = layout.degrees[ e ]
+    return global_function_count_on_element( e ) = layout.degrees[ e ] + 1
 end
 
 function local_function_count_on_element( layout::Layout )
-    return local_function_count_on_element( e ) = layout.degrees[ e ]
+    return local_function_count_on_element( e ) = layout.degrees[ e ] + 1
 end
 
 function global_function_id_on_element( layout::Layout )
