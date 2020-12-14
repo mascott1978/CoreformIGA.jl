@@ -2,14 +2,15 @@ module BasisMesh
 
 import ..BasisBernstein
 
+#Comment with what these members are (types)
 struct Layout
     domain
     starts
     lengths
     degrees
     smoothnesses
-    ops
-    EG
+    ops #CHANGE THIS to handle different degrees TODO
+    EG #Element to global function map FIXME for varying degree
     func_n
 end
 
@@ -44,8 +45,8 @@ function layout_bspline_1d_uniform_h_max_k( p::Integer, elem_n::Integer; domain 
     smoothnesses = [ p - 1 for i in 1 : elem_n ]
     smoothnesses[ 1 ] = -1
     append!( smoothnesses, -1 )
-    ops = zeros( p + 1, ( p + 1 ) * elem_n )
-    EG = zeros( Int32, elem_n, p + 1 )
+    ops = zeros( p + 1, ( p + 1 ) * elem_n ) #[ op[1](3x3), op[2](3x3) ... ]
+    EG = zeros( Int32, elem_n, p + 1 ) # Function index map [ [1,2,3], [2,3,4], [3,4,5], [4,5,6] ]
     for e in 1 : elem_n
         ops[ :, ( e - 1 ) * ( p + 1 ) + 1 : e * ( p + 1 ) ] = extraction_operator_on_element_uniform_h_max_k( e, p, elem_n )
         EG[ e, : ] = e : e + p

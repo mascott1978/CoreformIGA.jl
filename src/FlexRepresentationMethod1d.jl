@@ -11,8 +11,7 @@ using ..Field
 using ..Geometry
 using ..Integral
 
-function assemble( degree,
-                   elem_n,
+function assemble( bm_interior, # Why are we calling this interior? This seems like the flex mesh
                    nodes_interior,
                    q_rules_interior,
                    nodes_c_bdry,
@@ -25,7 +24,7 @@ function assemble( degree,
                    load::Function,
                    traction::Function )
 
-    bm_interior = BasisMesh.layout_bspline_1d_uniform_h_max_k( degree, elem_n )
+    #bm_interior = BasisMesh.layout_bspline_1d_uniform_h_max_k( degree, elem_n )
     bm_interior_fc = BasisMesh.function_collection( bm_interior )
     bs_interior_fc = BasisSpline.function_collection( bm_interior_fc )
     geom_interior_fc = Field.function_collection( bm_interior_fc, bs_interior_fc, nodes_interior )
