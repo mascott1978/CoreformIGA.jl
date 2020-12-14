@@ -34,14 +34,14 @@ end
 function layout_gauss_legendre_1d( element_count::Function, gauss_legendre_rules )
     quadrature_points = zeros( 0 )
     quadrature_weights= zeros( 0 )
-    element_id_at_quadrature_point = zeros( 0 )
+    element_id_at_quadrature_point = zeros( Int64, 0 )
     for e in 1 : element_count()
-        quadrature_points_e, quadrature_weights_e = gauss_legendre_rule[ e ]
+        quadrature_points_e, quadrature_weights_e = rule_gauss_legendre_1d( e )
         append!( quadrature_points, quadrature_points_e )
         append!( quadrature_weights, quadrature_weights_e )
         append!( element_id_at_quadrature_point, [ e for i in 1: length( quadrature_points_e ) ] )
     end
-    return Layout( quadrature_points, quadratures_weights, element_id_at_quadrature_point )
+    return Layout( quadrature_points, quadrature_weights, element_id_at_quadrature_point )
 end
 
 function rule_gauss_legendre_1d( rule::Integer )

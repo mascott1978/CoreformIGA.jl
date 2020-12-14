@@ -7,7 +7,7 @@ function assembleInnerProduct!( i_fc::Integral.FunctionCollectionIntegral,
                                 fs_test_fc::FunctionSpace.FunctionCollectionFunctionSpace,
                                 fs_trial_fc::FunctionSpace.FunctionCollectionFunctionSpace, M )
     for i in 1 : i_fc.quadrature_point_count()
-        e_i, xi_i = i_fc.quadrature_point( i )
+        e_i, xi_i = i_fc.quadrature_point( i ) #FIXME e_i, xi_i is should be xi_i and w_i, there needs to be another function to get the element from a quadrature point
         x_i = i_fc.geometry_value( e_i, xi_i )
         weighting_i = i_fc.integral_weight( x_i, e_i, xi_i )
 

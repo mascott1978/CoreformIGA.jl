@@ -3,8 +3,8 @@ module ImportBEXT
 import ..BasisMesh
 import JSON
 
-function bext( json )
-    o = JSON.parse( json )
+function bext( file )
+    o = JSON.parse( file )
     #print(o)
     #print("dim ", o["dim"], "\n")
     elements = o["elements"]
@@ -26,8 +26,8 @@ function bext( json )
     return p, element_extraction, element_nodes, nodes
 end
 
-function get1dLayoutFromBEXT( json )
-    p, ee, en, ns = bext( json )
+function get1dLayoutFromBEXT( file )
+    p, ee, en, ns = bext( file )
     elem_n = size(en)[1]
     degrees = [ x[1] for x in p ] # [ [ 1, -1, -1 ], [ 1, -1, -1 ], [ p-s, p-t, p-u ] ... ]
     smoothnesses = [ ] #Blank for BEXT
@@ -37,6 +37,6 @@ function get1dLayoutFromBEXT( json )
     domain = [ 0.0, elem_n ]
     lengths = [ 1 for i=1:elem_n ]
     starts = [ i - 1.0 for i=1:elem_n ]
-    return BasisMesh.Layout( domain, starts, lengths, degrees, smoothnesses, ops, EG, func_n )
+    return BasisMesh.Layout( domain, starts, lengths, degrees, smoothnesses, ops, EG, func_n ), ns
 end
 end

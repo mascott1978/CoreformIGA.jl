@@ -28,10 +28,6 @@ struct FunctionCollection
     local_basis_parametric_gradient::Function
 end
 
-function layout_bspline_0d()
-    return bspline_uniform_h_max_k( 0, 1, [ 0, 0 ] )
-end
-
 function layout_bspline_1d_uniform_h_max_k( p::Integer, elem_n::Integer; domain = [ 0.0, 1.0 ] )
     elem_size = ( domain[ 2 ] - domain[ 1 ] ) / elem_n
     lengths = [ elem_size for i in 1 : elem_n ]
@@ -49,6 +45,10 @@ function layout_bspline_1d_uniform_h_max_k( p::Integer, elem_n::Integer; domain 
     EG = [ [ i for i = e:e+p ]  for e = 1:elem_n ]
     func_n = elem_n + p
     return Layout( domain, starts, lengths, degrees, smoothnesses, ops, EG, func_n )
+end
+
+function layout_bspline_0d()
+    return layout_bspline_1d_uniform_h_max_k( 0, 1, domain=[ 0.0, 0.0 ] )
 end
 
 function function_collection( layout::Layout )
