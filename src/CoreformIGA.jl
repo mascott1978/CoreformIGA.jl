@@ -3,6 +3,7 @@ module CoreformIGA
 include("Quadrature.jl")
 include("BasisBernstein.jl")
 include("BasisMesh.jl")
+include("BEXTImport.jl")
 include("BasisSpline.jl")
 include("FunctionSpace.jl")
 include("Field.jl")
