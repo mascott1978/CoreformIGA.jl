@@ -39,3 +39,4 @@ function get1dLayoutFromBEXT( json )
     starts = [ i - 1.0 for i=1:elem_n ]
     return BasisMesh.Layout( domain, starts, lengths, degrees, smoothnesses, ops, EG, func_n )
 end
+end
