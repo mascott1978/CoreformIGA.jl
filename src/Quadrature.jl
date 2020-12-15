@@ -24,7 +24,7 @@ function quadrature_point_count( layout::Layout )
 end
 
 function quadrature_point( layout::Layout )
-    return quadrature_point( i ) = layout.quadrature_points[ i ], layout.quadrature_weights[ i ]
+    return quadrature_point( i ) = layout.element_id_at_quadrature_point[ i ], layout.quadrature_points[ i ], layout.quadrature_weights[ i ]
 end
 
 function layout_gauss_legendre_0d()

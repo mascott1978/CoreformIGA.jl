@@ -16,6 +16,7 @@ end
 
 struct FunctionCollection
     element_count::Function
+    element_degree::Function
     global_function_count::Function
     global_function_count_on_element::Function
     local_function_count_on_element::Function
@@ -53,6 +54,7 @@ end
 
 function function_collection( layout::Layout )
     return FunctionCollection( element_count( layout ),
+                               element_degree( layout ),
                                global_function_count( layout ),
                                global_function_count_on_element( layout ),
                                local_function_count_on_element( layout ),
@@ -60,13 +62,17 @@ function function_collection( layout::Layout )
                                global_function_ids_on_element( layout ),
                                parametric_map_value( layout ),
                                parametric_map_gradient( layout ),
-                               extraction_operator_on_element( layout ), 
+                               extraction_operator_on_element( layout ),
                                local_basis_value(),
                                local_basis_parametric_gradient() )
 end
 
 function element_count( layout::Layout )
     return element_count() = length( layout.degrees )
+end
+
+function element_degree( layout::Layout )
+    return element_degree( e ) = layout.degrees[ e ]
 end
 
 function global_function_count( layout::Layout )

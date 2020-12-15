@@ -1,3 +1,7 @@
+import Pkg
+
+Pkg.activate(".")
+
 
 import CoreformIGA
 
@@ -42,3 +46,10 @@ K, M, B, F, G, H = CoreformIGA.FlexRepresentationMethod1d.assemble( layout_inter
                                                                     nodes_constraint_bdry,
                                                                     nodes_traction_bdry,
                                                                     chi, penalty_constraint, constraint, E, A, load, traction)
+
+println( K )
+println( M )
+println( B )
+println( F )
+println( G )
+println( H )

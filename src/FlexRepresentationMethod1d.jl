@@ -88,7 +88,7 @@ function assemble( bm_interior, # Why are we calling this interior? This seems l
 
     weight_H( x, e, xi ) = penalty_constraint( x ) * constraint( x )
     i_H_fc = Integral.function_collection_integral( q_c_bdry_fc, geom_c_bdry_fc, weight_H )
-    H = Assembler.assembleProjection!( weight_H, fs_interior_N_fc, H )
+    H = Assembler.assembleProjection!( i_H_fc, fs_interior_N_fc, H )
 
     return K, M, B, F, G, H
 end

@@ -34,7 +34,8 @@ end
 
 function geometric_map_inversion_predictor_sequential_1d( bm_fc, field_fc )
     function geometric_map_inversion_predictor_sequential_1d( x )
-        curr = bm_fc.element_count()
+        elem_n = bm_fc.element_count()
+        curr = elem_n
         for e in 1 : elem_n
             x_right = field_fc.field_value( e, 1.0 )
             if x < x_right

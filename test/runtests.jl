@@ -46,4 +46,8 @@ using Test
         @test bm_fc.local_basis_parametric_gradient( 1, 0.5 )[ 1 ] == -1.0
         @test bm_fc.local_basis_parametric_gradient( 1, 0.5 )[ 2 ] == 1.0
     end
+    @testset "BasisSpline.jl" begin
+        #make a basis spline function collection
+        @test bs.x == y
+    end
 end
