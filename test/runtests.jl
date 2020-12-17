@@ -146,8 +146,6 @@ using LinearAlgebra
         nodes = [ [0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [1.5, 0.0, 0.0], [2.0, 0.0, 0.0] ]
         field_fc = CoreformIGA.Field.function_collection( bm_fc, bs_fc, nodes )
         oneD_inverse_map_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_fc, field_fc )
-        AA = oneD_inverse_map_fc.geometric_map_inversion( [0.5, 0, 0], 1, 0 )
-        println( "$AA" )
-        # @test oneD_inverse_map_fc.geometric_map_inversion( 0.5, 1, 0 ) == ( 1, 0.27924070610240825)
+        @test oneD_inverse_map_fc.geometric_map_inversion( -1.5, 1, 0 ) == ( 1, 0.27924070610240825)
     end
 end
