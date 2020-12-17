@@ -10,7 +10,7 @@ function newtonRaphsonIteration( input,
                                  max_iter = 10,
                                  tol = 1e-6 )
 
-    curr = predictor( input )
+    curr = predictor( input ) # second filter
     R = residual( input, curr )
     iter = 0
     while norm( R ) > tol

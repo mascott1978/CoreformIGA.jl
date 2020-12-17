@@ -38,7 +38,7 @@ function geometric_map_inversion_predictor_sequential_1d( bm_fc, field_fc )
         curr = elem_n
         for e in 1 : elem_n
             x_right = field_fc.field_value( e, 1.0 )
-            if x < x_right
+            if x[ 1 ] < x_right[ 1 ]
                 curr = e
                 break
             end
@@ -59,7 +59,7 @@ function geometric_map_inversion( bm_fc,
         residual( x, xi ) = x - field_fc.field_value( e, xi )
         tangent( xi ) = field_fc.field_parametric_gradient( e, xi )
         update( xi, delta_xi ) = xi + delta_xi
-        return e, solver_nonlinear( x, x -> x, residual, tangent, solver_linear, norm, update )
+        return e, solver_nonlinear( x, x -> 0.5, residual, tangent, solver_linear, norm, update )
     end
     return geometric_map_inversion
 end
