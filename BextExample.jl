@@ -5,7 +5,7 @@ Pkg.activate(".")
 
 import CoreformIGA
 
-filename = "/home/chris/cf/master/iga/chris_old/bext_files/full_flex_bext_p2h2.json"
+filename = "/Users/zhihui/CoreformIGA.jl/chris_old/bext_files/full_flex_bext_p2h2.json"
 io = open(filename, "r")
 file = read(io, String)
 

@@ -13,5 +13,6 @@ include("Assembler.jl")
 include("Geometry.jl")
 include("FlexRepresentationMethod1d.jl")
 include("Viz.jl")
+include("BoundaryCondition.jl")
 
 end

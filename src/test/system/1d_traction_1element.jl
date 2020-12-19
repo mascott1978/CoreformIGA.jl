@@ -2,6 +2,8 @@ using Test
 using LinearAlgebra
 # stretching of an axial rod, using FRM AL
 import CoreformIGA
+import BoundaryCondition
+
 
 @testset "1d_traction_1element.jl" begin
     layout_interior = CoreformIGA.BasisMesh.layout_bspline_1d_uniform_h_max_k( 1, 1 )
@@ -16,6 +18,9 @@ import CoreformIGA
     A(x) = 1
     load(x) = 0
     traction(x) = 1
+
+    dirichlet_bc_layouts 
+    dirichlet_bcs_fc = 
 
     K, M, B, F, G, H = CoreformIGA.FlexRepresentationMethod1d.assemble( layout_interior,
                                                                         nodes_interior,
