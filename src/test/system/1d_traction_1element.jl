@@ -8,7 +8,8 @@ import CoreformIGA
 @testset "1d_traction_1element.jl" begin
     layout_interior = CoreformIGA.CoreformIGA.BasisMesh.layout_bspline_1d_uniform_h_max_k( 1, 1 )
     nodes_interior = [0,1]
-    quad_rules_interior = [2]
+    quad_rules_interior( elem_count, elem_deg ) = CoreformIGA.Quadrature.layout_gauss_legendre_1d( elem_count, elem_deg, "QP1" )
+    geom_inv_map_interior = CoreformIGA.Geometry.function_collection_map_inversion_1d
     nodes_constraint_bdry = [0]
     nodes_traction_bdry = [1]
     chi(x) = x >= 0 && x <= 1 ? 1.0 : 1e-12
@@ -28,16 +29,17 @@ import CoreformIGA
     disp_strain_mat( x ) = CoreformIGA.Formulation1DSolid.dis_strain_mat( x )
 
     K, M, B, F, G, H = CoreformIGA.FlexRepresentationMethod.assemble( layout_interior,
-                                                                        nodes_interior,
-                                                                        quad_rules_interior,
-                                                                        dirichlet_bcs_fc,
-                                                                        neumann_bcs_fc,
-                                                                        chi,
-                                                                        penalty_constraint,
-                                                                        E,
-                                                                        A,
-                                                                        load,
-                                                                        disp_strain_mat )
+                                                                      nodes_interior,
+                                                                      quad_rules_interior,
+                                                                      geom_inv_map_interior,
+                                                                      dirichlet_bcs_fc,
+                                                                      neumann_bcs_fc,
+                                                                      chi,
+                                                                      penalty_constraint,
+                                                                      E,
+                                                                      A,
+                                                                      load,
+                                                                      disp_strain_mat )
 
     F_ref = zeros( 2, 1 );
     F_ref[2] = 1.0;

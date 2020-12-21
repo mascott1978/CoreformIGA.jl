@@ -14,6 +14,7 @@ using ..Integral
 function assemble( bm_interior, # Why are we calling this interior? This seems like the flex mesh
                    nodes_interior,
                    q_rules_interior,
+                   geom_inv_map_interior,
                    dirichelet_bcs,
                    neumann_bcs,
                    chi::Function,
@@ -28,8 +29,8 @@ function assemble( bm_interior, # Why are we calling this interior? This seems l
     bm_interior_fc = BasisMesh.function_collection( bm_interior )
     bs_interior_fc = BasisSpline.function_collection( bm_interior_fc )
     geom_interior_fc = Field.function_collection( bm_interior_fc, bs_interior_fc, nodes_interior )
-    mi_interior_fc = Geometry.function_collection_map_inversion_1d( bm_interior_fc, geom_interior_fc )
-    q_interior = Quadrature.layout_gauss_legendre_1d( bm_interior_fc.element_count, bm_interior_fc.element_degree, q_rules_interior )
+    mi_interior_fc = geom_inv_map_interior( bm_interior_fc, geom_interior_fc )
+    q_interior = q_rules_interior( bm_interior_fc.element_count, bm_interior_fc.element_degree )
     q_interior_fc = Quadrature.function_collection_quadrature( q_interior )
     fs_interior_N_fc = FunctionSpace.function_collection_function_space( bm_interior_fc, mi_interior_fc, bs_interior_fc.global_basis_value )
     fs_interior_dNdx_fc = FunctionSpace.function_collection_function_space( bm_interior_fc, mi_interior_fc, bs_interior_fc.global_basis_parametric_gradient )
