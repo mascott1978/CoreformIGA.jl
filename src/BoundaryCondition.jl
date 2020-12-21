@@ -51,3 +51,5 @@ end
 function value( layout::Layout )
     return value( i ) = layout.values[ i ]
 end
+
+end

@@ -14,11 +14,10 @@ using ..Integral
 function assemble( bm_interior, # Why are we calling this interior? This seems like the flex mesh
                    nodes_interior,
                    q_rules_interior,
-                   neumann_bcs,
                    dirichelet_bcs,
+                   neumann_bcs,
                    chi::Function,
                    penalty_constraint::Function,
-                   constraint::Function,
                    E::Function,
                    A::Function,
                    load::Function,
@@ -36,8 +35,8 @@ function assemble( bm_interior, # Why are we calling this interior? This seems l
     fs_interior_dNdx_fc = FunctionSpace.function_collection_function_space( bm_interior_fc, mi_interior_fc, bs_interior_fc.global_basis_parametric_gradient )
     u_func_n = bm_interior_fc.global_function_count()
     lambda_func_n = 0
-    for i = 1:length( bm_c_boundries )
-        bm_c_bdry = bm_c_bdries[ i ]
+    for i = 1:dirichelet_bcs.bc_num()
+        bm_c_bdry = dirichelet_bcs.basis_mesh( i )
         bm_c_bdry_fc = BasisMesh.function_collection( bm_c_bdry )
         lambda_func_n = lambda_func_n + bm_c_bdry_fc.global_function_count()
     end
@@ -54,26 +53,26 @@ function assemble( bm_interior, # Why are we calling this interior? This seems l
         bm_c_bdry_fc = BasisMesh.function_collection( bm_c_bdry )
         bs_c_bdry_fc = BasisSpline.function_collection( bm_c_bdry_fc )
         geom_c_bdry_fc = Field.function_collection( bm_c_bdry_fc, bs_c_bdry_fc, dirichelet_bcs.nodes( i ) )
-        mi_c_bdry_fc = dirichelet_bcs.geom_inv_map( i )
+        mi_c_bdry_fc = dirichelet_bcs.geom_inv_map( i )( bm_c_bdry_fc, geom_c_bdry_fc )
         q_c_bdry = dirichelet_bcs.quadrature_layout( i )
         q_c_bdry_fc = Quadrature.function_collection_quadrature( q_c_bdry )
         fs_c_bdry_N_fc = FunctionSpace.function_collection_function_space( bm_c_bdry_fc, mi_c_bdry_fc, bs_c_bdry_fc.global_basis_value )
         lambda_func_n = lambda_func_n + bm_c_bdry_fc.global_function_count()
         weight_B( x, e, xi ) = 1
         i_B_fc = Integral.function_collection_integral( q_c_bdry_fc, geom_c_bdry_fc, weight_B )
-        B = B + Assembler.assembleInnerProduct!( i_B_fc, fs_c_bdry_N_fc, fs_interior_N_fc, dirichelet_bcs.value( i ), B )
+        B = Assembler.assembleInnerProduct!( i_B_fc, fs_c_bdry_N_fc, fs_interior_N_fc, disp_strain_mat, B ) # FIXME: disp_strain_mat might be a different function for 2D
 
-        weight_G( x, e, xi ) = constraint( x )
+        weight_G( x, e, xi ) = dirichelet_bcs.value( i )( x )
         i_G_fc = Integral.function_collection_integral( q_c_bdry_fc, geom_c_bdry_fc, weight_G )
-        G = G + Assembler.assembleProjection!( i_G_fc, fs_c_bdry_N_fc, dirichelet_bcs.value( i ), G )
+        G = Assembler.assembleProjection!( i_G_fc, fs_c_bdry_N_fc, G )
 
-        weight_H( x, e, xi ) = penalty_constraint( x ) * constraint( x )
+        weight_H( x, e, xi ) = penalty_constraint( x ) * dirichelet_bcs.value( i )( x )
         i_H_fc = Integral.function_collection_integral( q_c_bdry_fc, geom_c_bdry_fc, weight_H )
-        H = H + Assembler.assembleProjection!( i_H_fc, fs_interior_N_fc, dirichelet_bcs.value( i ), H )
+        H = Assembler.assembleProjection!( i_H_fc, fs_interior_N_fc, H )
 
         weight_M( x, e, xi ) = penalty_constraint( x )
         i_M_fc = Integral.function_collection_integral( q_c_bdry_fc, geom_c_bdry_fc, weight_M )
-        M = M + Assembler.assembleInnerProduct!( i_M_fc, fs_interior_N_fc, fs_interior_N_fc, dirichelet_bcs.value( i ), M )
+        M = Assembler.assembleInnerProduct!( i_M_fc, fs_interior_N_fc, fs_interior_N_fc, disp_strain_mat, M ) # FIXME: disp_strain_mat might be a different function for 2D
 
     end
 
@@ -83,14 +82,14 @@ function assemble( bm_interior, # Why are we calling this interior? This seems l
         bm_t_bdry_fc = BasisMesh.function_collection( bm_t_bdry )
         bs_t_bdry_fc = BasisSpline.function_collection( bm_t_bdry_fc )
         geom_t_bdry_fc = Field.function_collection( bm_t_bdry_fc, bs_t_bdry_fc, neumann_bcs.nodes( i ) )
-        mi_t_bdry_fc = neumann_bcs.geom_inv_map( i )
+        mi_t_bdry_fc = neumann_bcs.geom_inv_map( i )( bm_t_bdry_fc, geom_t_bdry_fc )
         q_t_bdry = neumann_bcs.quadrature_layout( i )
         q_t_bdry_fc = Quadrature.function_collection_quadrature( q_t_bdry )
         fs_t_bdry_N_fc = FunctionSpace.function_collection_function_space( bm_t_bdry_fc, mi_t_bdry_fc, bs_t_bdry_fc.global_basis_value )
 
         weight_traction_force( x, e, xi ) = neumann_bcs.value( i )( x )
         i_traction_force_fc = Integral.function_collection_integral( q_t_bdry_fc, geom_t_bdry_fc, weight_traction_force )
-        F = F + Assembler.assembleProjection!( i_traction_force_fc, fs_interior_N_fc, F )
+        F = Assembler.assembleProjection!( i_traction_force_fc, fs_interior_N_fc, F )
     end
 
     weight_K( x, e, xi ) = chi( x ) * E( x ) * A( x ) * ( 1.0 / geom_interior_fc.field_parametric_gradient( e, xi ) )

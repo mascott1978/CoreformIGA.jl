@@ -2,11 +2,11 @@ using Test
 using LinearAlgebra
 # stretching of an axial rod, using FRM AL
 import CoreformIGA
-import BoundaryCondition
-
+# import CoreformIGA.BoundaryCondition
+# import Formulation1DSolid
 
 @testset "1d_traction_1element.jl" begin
-    layout_interior = CoreformIGA.BasisMesh.layout_bspline_1d_uniform_h_max_k( 1, 1 )
+    layout_interior = CoreformIGA.CoreformIGA.BasisMesh.layout_bspline_1d_uniform_h_max_k( 1, 1 )
     nodes_interior = [0,1]
     quad_rules_interior = [2]
     nodes_constraint_bdry = [0]
@@ -19,21 +19,25 @@ import BoundaryCondition
     load(x) = 0
     traction(x) = 1
 
-    dirichlet_bc_layouts 
-    dirichlet_bcs_fc = 
+    dirichlet_bc_layouts  = CoreformIGA.BoundaryCondition.Layout( 1, [ nodes_constraint_bdry ], [ CoreformIGA.BasisMesh.layout_bspline_0d() ], [ CoreformIGA.Quadrature.layout_gauss_legendre_0d() ], [ CoreformIGA.Geometry.function_collection_map_inversion_1d ], [ constraint ] )
+    dirichlet_bcs_fc = CoreformIGA.BoundaryCondition.function_collection( dirichlet_bc_layouts )
 
-    K, M, B, F, G, H = CoreformIGA.FlexRepresentationMethod1d.assemble( layout_interior,
+    neumann_bc_layouts  = CoreformIGA.BoundaryCondition.Layout( 1, [ nodes_traction_bdry ], [ CoreformIGA.BasisMesh.layout_bspline_0d() ], [ CoreformIGA.Quadrature.layout_gauss_legendre_0d() ], [ CoreformIGA.Geometry.function_collection_map_inversion_1d ], [ traction ] )
+    neumann_bcs_fc = CoreformIGA.BoundaryCondition.function_collection( neumann_bc_layouts )
+
+    disp_strain_mat( x ) = CoreformIGA.Formulation1DSolid.dis_strain_mat( x )
+
+    K, M, B, F, G, H = CoreformIGA.FlexRepresentationMethod.assemble( layout_interior,
                                                                         nodes_interior,
                                                                         quad_rules_interior,
-                                                                        nodes_constraint_bdry,
-                                                                        nodes_traction_bdry,
+                                                                        dirichlet_bcs_fc,
+                                                                        neumann_bcs_fc,
                                                                         chi,
                                                                         penalty_constraint,
-                                                                        constraint,
                                                                         E,
                                                                         A,
                                                                         load,
-                                                                        traction )
+                                                                        disp_strain_mat )
 
     F_ref = zeros( 2, 1 );
     F_ref[2] = 1.0;
