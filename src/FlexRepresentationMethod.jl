@@ -30,7 +30,7 @@ function assemble( bm_interior, # Why are we calling this interior? This seems l
     bs_interior_fc = BasisSpline.function_collection( bm_interior_fc )
     geom_interior_fc = Field.function_collection( bm_interior_fc, bs_interior_fc, nodes_interior )
     mi_interior_fc = geom_inv_map_interior( bm_interior_fc, geom_interior_fc )
-    q_interior = q_rules_interior( bm_interior_fc.element_count, bm_interior_fc.element_degree )
+    q_interior = q_rules_interior( bm_interior_fc.element_count, bm_interior_fc.element_degree, mi_interior_fc, dirichelet_bcs, neumann_bcs )
     q_interior_fc = Quadrature.function_collection_quadrature( q_interior )
     fs_interior_N_fc = FunctionSpace.function_collection_function_space( bm_interior_fc, mi_interior_fc, bs_interior_fc.global_basis_value )
     fs_interior_dNdx_fc = FunctionSpace.function_collection_function_space( bm_interior_fc, mi_interior_fc, bs_interior_fc.global_basis_parametric_gradient )

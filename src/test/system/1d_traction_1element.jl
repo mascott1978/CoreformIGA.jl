@@ -8,7 +8,7 @@ import CoreformIGA
 @testset "1d_traction_1element.jl" begin
     layout_interior = CoreformIGA.CoreformIGA.BasisMesh.layout_bspline_1d_uniform_h_max_k( 1, 1 )
     nodes_interior = [0,1]
-    quad_rules_interior( elem_count, elem_deg ) = CoreformIGA.Quadrature.layout_gauss_legendre_1d( elem_count, elem_deg, "QP1" )
+    quad_rules_interior( elem_count, elem_deg, inverse_map, d_bc_fc, t_bc_fc ) = CoreformIGA.Quadrature.layout_gauss_legendre_1d( elem_count, elem_deg, inverse_map, d_bc_fc, t_bc_fc, "QP1" )
     geom_inv_map_interior = CoreformIGA.Geometry.function_collection_map_inversion_1d
     nodes_constraint_bdry = [0]
     nodes_traction_bdry = [1]

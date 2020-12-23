@@ -1,5 +1,6 @@
 module CoreformIGA
 
+include("1dCutCellDomains.jl")
 include("Quadrature.jl")
 include("BasisBernstein.jl")
 include("BasisMesh.jl")
