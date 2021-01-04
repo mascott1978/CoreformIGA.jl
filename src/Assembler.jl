@@ -18,10 +18,10 @@ function assembleInnerProduct!( i_fc::Integral.FunctionCollectionIntegral,
         e_trial_i, xi_trial_i = fs_trial_fc.geometric_map_inversion( x_i, e_i, xi_i )
         N_i = fs_trial_fc.global_basis_evaluator( e_trial_i, xi_trial_i )
 
-        for a in 1 : fs_test_fc.global_function_count_on_element( e_i )
-            for b in 1 : fs_trial_fc.global_function_count_on_element( e_i )
-                M[ fs_test_fc.global_function_id_on_element( e_i, a ),
-                   fs_trial_fc.global_function_id_on_element( e_i, b ) ] += weighting_i * disp_strain_mat( M_i[ a ] ) * disp_strain_mat( N_i[ b ] )* w_i
+        for a in 1 : fs_test_fc.global_function_count_on_element( e_test_i )
+            for b in 1 : fs_trial_fc.global_function_count_on_element( e_trial_i )
+                M[ fs_test_fc.global_function_id_on_element( e_test_i, a ),
+                   fs_trial_fc.global_function_id_on_element( e_trial_i, b ) ] += weighting_i * disp_strain_mat( M_i[ a ] ) * disp_strain_mat( N_i[ b ] )* w_i
             end
         end
     end
@@ -40,8 +40,8 @@ function assembleProjection!( i_fc::Integral.FunctionCollectionIntegral,
         e_test_i, xi_test_i = fs_test_fc.geometric_map_inversion( x_i, e_i, xi_i )
         M_i = fs_test_fc.global_basis_evaluator( e_test_i, xi_test_i )
 
-        for a in 1 : fs_test_fc.global_function_count_on_element( e_i )
-            F[ fs_test_fc.global_function_id_on_element( e_i, a ) ] += weighting_i * M_i[ a ] * w_i
+        for a in 1 : fs_test_fc.global_function_count_on_element( e_test_i )
+            F[ fs_test_fc.global_function_id_on_element( e_test_i, a ) ] += weighting_i * M_i[ a ] * w_i
         end
     end
     return F
