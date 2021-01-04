@@ -1,0 +1,21 @@
+* Work for 2D
+** BasisSpline and BasisMesh need to be extend to 2D. 
+
+** Quadrature
+*** add functionalities for 2D and give an example on how to use it.
+
+** Geometry. 
+*** Assume it is an affine mapping for now and write a geometric_map_inversion_predictor_sequential_2d function
+*** If we really want to explore things deeply, we need to use the inverse mapping functionalities from igx code.
+
+** Assembler.  
+*** Right now we are using global_function_id_on_element to find the stiffness matrix to index. However, here global_function_id_on_element refers to global basis function ids. For 2D problem, this will not work any more. We need something like ID arrays to index. Need to discuss about this part.
+
+** Convergence study on 1D case
+*** tip displacement
+*** L2-norm convergence
+
+** Outputs
+*** I am wondering if we should write some routines to output the results, such as, contour plots, etc., to VTK file or not? I assume Ph.D students will use Coreform's igx code to generate plots for their Ph.D dissertations. This is going to be very helpful for students to have consistent plots in their dissertations if they also use this Julia code to do some research. In addition, research work plots can be put into Coreform's customer reports.   
+
+* Work for the paper
