@@ -22,11 +22,11 @@ function global_basis_evaluator( e::Integer, xi::Real, element_degree::Function,
     p = element_degree( e )
     B_xi = local_basis_evaluator( p, xi )
     C_e = extraction_operator_on_element( e )
-    if p == 0
-        ret = zeros( 1 )
-        ret[ 1 ] = B_xi[ 1 ] * C_e[ 1 ]
-        return ret
-    end
+    # if p == 0
+    #     ret = zeros( 1 )
+    #     ret[ 1 ] = B_xi[ 1 ] * C_e[ 1 ]
+    #     return ret
+    # end
     return C_e * B_xi
 end
 

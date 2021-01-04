@@ -142,7 +142,7 @@ end
 
 function extraction_operator_on_element_uniform_h_max_k( e, p, elem_n )
     if p == 0
-        return [ 1.0 ];
+        return reshape( [ 1 ], 1, 1 );
     elseif p == 1
         return [ 1 0;
                  0 1 ]
