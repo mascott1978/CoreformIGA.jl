@@ -36,7 +36,8 @@ function get1dLayoutFromBEXT( file )
     func_n = size(ns)[1]
     domain = [ 0.0, elem_n ]
     lengths = [ 1 for i=1:elem_n ]
-    starts = [ i - 1.0 for i=1:elem_n ]
+    #starts = [ i - 1.0 for i=1:elem_n ] #FIXME this assumes that elements are given sequentially
+    starts = [] #Blank for BEXT
     return BasisMesh.Layout( domain, starts, lengths, degrees, smoothnesses, ops, EG, func_n ), ns
 end
 end

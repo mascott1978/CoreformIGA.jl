@@ -6,6 +6,7 @@ include( "./unit/testBasisSpline.jl" )
 include( "./unit/testField.jl" )
 include( "./unit/testNonlinearSolver.jl" )
 include( "./unit/testQuadrature.jl" )
+include( "./unit/testBEXTImport.jl" )
 
 
 # system tests
