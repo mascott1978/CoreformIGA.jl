@@ -115,6 +115,7 @@ function global_function_ids_on_element( layout::Layout )
     return global_function_ids_on_element( e ) = [ layout.EG[ e ][ a ] for a in 1 : layout.degrees[ e ] + 1 ]
 end
 
+#NOTE This function will not work for BEXT
 function parametric_map_value( layout::Layout )
     return parametric_map_value( e, xi ) = layout.starts[ e ] + xi * layout.lengths[ e ]
 end

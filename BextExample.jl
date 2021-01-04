@@ -1,8 +1,5 @@
 import Pkg
-
 Pkg.activate(".")
-
-
 import CoreformIGA
 
 filename = "/Users/zhihui/CoreformIGA.jl/chris_old/bext_files/full_flex_bext_p2h2.json"
@@ -12,6 +9,7 @@ file = read(io, String)
 layout_interior, nodes = CoreformIGA.ImportBEXT.get1dLayoutFromBEXT( file )
 
 nodes_interior = [ node[1] for node in nodes ]
+print(nodes_interior)
 quad_rules_interior = [] #NOTE UNUSED
 
 
@@ -53,3 +51,8 @@ println( B )
 println( F )
 println( G )
 println( H )
+
+d, lam = CoreformIGA.NonlinearSolver.uzawaIteration( K, M, B, F, G, H )
+
+
+println("\n", d )

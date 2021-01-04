@@ -27,7 +27,7 @@ function newtonRaphsonIteration( input,
 end
 
 function uzawaIteration( K, M, B, F, G, H;
-                         max_iter = 10 )
+                         max_iter = 10, p_u = 1 )
 
     d_curr = zeros( size( K )[ 1 ] + 1 )
     lambda_curr = zeros( 1 )
