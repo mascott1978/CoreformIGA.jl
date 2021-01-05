@@ -2,6 +2,7 @@ import Pkg
 Pkg.activate(".")
 import CoreformIGA
 import LinearAlgebra
+using Plots
 
 #filename = "/Users/zhihui/CoreformIGA.jl/chris_old/"
 #io = open(filename, "r")
@@ -41,7 +42,7 @@ penalty_constraint(x) = 1
 constraint(x) = 0
 E(x) = 1
 A(x) = 1
-load(x) = 0
+load(x) = x
 traction(x) = 1
 
 
@@ -81,3 +82,23 @@ d, cond = solve1dSystem( K, B, F, G )
 
 
 println("\n", d )
+
+bm_fc = CoreformIGA.BasisMesh.function_collection( layout_interior )
+bs_fc = CoreformIGA.BasisSpline.function_collection( bm_fc )
+geom_fc = CoreformIGA.Field.function_collection( bm_fc, bs_fc, nodes_interior )
+field = d[1:bm_fc.global_function_count()]
+field_fc = CoreformIGA.Field.function_collection( bm_fc, bs_fc, field )
+plt=plot()
+plt = CoreformIGA.Viz.plotGlobalBasisField1d!( plt, bm_fc.element_count, geom_fc.field_value, field_fc.field_value )
+gui(plt)
+
+mi_interior_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_fc, geom_fc )
+x_sol = 1.0
+unused_e = 0
+unused_xi = 0
+e_inv, xi_inv = mi_interior_fc.geometric_map_inversion( x_sol, unused_e, unused_xi )
+tip_displacement = field_fc.field_value( e_inv, xi_inv )
+println(tip_displacement)
+
+
+readline()

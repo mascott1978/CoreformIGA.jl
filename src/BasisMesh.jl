@@ -9,8 +9,8 @@ struct Layout
     lengths
     degrees
     smoothnesses
-    ops #CHANGE THIS to handle different degrees TODO
-    EG #Element to global function map FIXME for varying degree
+    ops
+    EG #Element to global function map
     func_n
 end
 

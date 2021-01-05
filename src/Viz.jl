@@ -60,4 +60,20 @@ function plotField!( plt,
     return plt
 end
 
+function plotGlobalBasisField1d!( plt,
+                                element_count::Function,
+                                geom_evaluator::Function,
+                                field_evaluator::Function,
+                                subd = 20 )
+    x = []
+    y = []
+    for e in 1:element_count()
+        xi = [ xi for xi in LinRange( 0, 1, subd ) ]
+        append!( x, [ geom_evaluator( e, xi ) for xi in xi ] )
+        append!( y, [ field_evaluator( e, xi ) for xi in xi ] )
+    end
+    Plots.plot!(plt,x,y)
+    return plt
+end
+
 end
