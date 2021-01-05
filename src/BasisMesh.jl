@@ -38,7 +38,7 @@ function layout_bspline_1d_uniform_h_max_k( p::Integer, elem_n::Integer; domain 
         starts[ e ] = start
         start += lengths[ e ]
     end
-    degrees = [ p for i in 1 : elem_n ]
+    degrees = [ [ p ] for i in 1 : elem_n ]
     smoothnesses = [ p - 1 for i in 1 : elem_n ]
     smoothnesses[ 1 ] = -1
     append!( smoothnesses, -1 )
@@ -69,7 +69,9 @@ function layout_uspline_1d( degrees::Array{<:Integer}, smoothnesses::Array{<:Int
         N, dims = 2 ) ) )
            for e in 1:length( degrees ) ]
 
-    return Layout( domain, starts, lengths, degrees, smoothnesses, ops, EG, func_n )
+    degrees2 = [ [ degrees[ i ] ] for i in 1 : size( degrees, 1 ) ]
+
+    return Layout( domain, starts, lengths, degrees2, smoothnesses, ops, EG, func_n )
 end
 
 function function_collection( layout::Layout )
@@ -100,11 +102,11 @@ function global_function_count( layout::Layout )
 end
 
 function global_function_count_on_element( layout::Layout )
-    return global_function_count_on_element( e ) = layout.degrees[ e ] + 1
+    return global_function_count_on_element( e ) = layout.degrees[ e ][ 1 ] + 1 #FIXME
 end
 
 function local_function_count_on_element( layout::Layout )
-    return local_function_count_on_element( e ) = layout.degrees[ e ] + 1
+    return local_function_count_on_element( e ) = layout.degrees[ e ][ 1 ] + 1 #FIXME
 end
 
 function global_function_id_on_element( layout::Layout )
@@ -112,7 +114,7 @@ function global_function_id_on_element( layout::Layout )
 end
 
 function global_function_ids_on_element( layout::Layout )
-    return global_function_ids_on_element( e ) = [ layout.EG[ e ][ a ] for a in 1 : layout.degrees[ e ] + 1 ]
+    return global_function_ids_on_element( e ) = [ layout.EG[ e ][ a ] for a in 1 : layout.degrees[ e ][ 1 ] + 1 ] #FIXME
 end
 
 #NOTE This function will not work for BEXT
@@ -121,7 +123,7 @@ function parametric_map_value( layout::Layout )
 end
 
 function parametric_map_gradient( layout::Layout )
-    return parametric_map_gradient( e, xi ) = layout.lengths[ e ]
+    return parametric_map_gradient( e, xi ) = layout.lengths[ e ] #FIXME
 end
 
 function extraction_operator_on_element( layout::Layout )

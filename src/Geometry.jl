@@ -16,13 +16,13 @@ function function_collection_map_inversion_0d( bm_fc, field_fc )
                                            x -> 0.0,
                                            ( K, R ) -> 0.0,
                                            ( input, predictor, residual, tangent, solver_linear, norm, update ) -> 0.0,
-                                           ( x, e_x, xi_x ) -> 1, 0.0 )
+                                           ( x, e_x, xi_x ) -> 1, [ 0.0 ] )
 end
 
 function function_collection_map_inversion_1d( bm_fc, field_fc )
     geometric_map_inversion_predictor = geometric_map_inversion_predictor_sequential_1d( bm_fc, field_fc )
     norm = LinearAlgebra.norm
-    solver_linear( K, R ) = ( 1.0 / K ) * R
+    solver_linear( K, R ) = [ ( 1.0 / K ) * R ]
     solver_nonlinear = NonlinearSolver.newtonRaphsonIteration
     return FunctionCollectionMapInversion( geometric_map_inversion_predictor,
                                            norm,
@@ -37,13 +37,13 @@ function geometric_map_inversion_predictor_sequential_1d( bm_fc, field_fc )
         elem_n = bm_fc.element_count()
         curr = elem_n
         for e in 1 : elem_n
-            x_right = field_fc.field_value( e, 1.0 )
+            x_right = field_fc.field_value( e, [ 1.0 ] )
             if x[ 1 ] < x_right[ 1 ]
                 curr = e
                 break
             end
         end
-        return curr, 0.5
+        return curr, [ 0.5 ]
     end
     return geometric_map_inversion_predictor_sequential_1d
 end
@@ -59,7 +59,7 @@ function geometric_map_inversion( bm_fc,
         residual( x, xi ) = x - field_fc.field_value( e, xi )
         tangent( xi ) = field_fc.field_parametric_gradient( e, xi )
         update( xi, delta_xi ) = xi + delta_xi
-        return e, solver_nonlinear( x, x -> 0.5, residual, tangent, solver_linear, norm, update )
+        return e, solver_nonlinear( x, x -> [ 0.5 ], residual, tangent, solver_linear, norm, update )
     end
     return geometric_map_inversion
 end

@@ -13,8 +13,8 @@ using Test
     @test field_fc.node_on_element( 2, 2 ) == [4.0, 0.0, 0.0]
     @test field_fc.nodes_on_element( 1 ) == [ [0.0, 0.0, 0.0], [2.0, 0.0, 0.0] ]
     @test field_fc.nodes_on_element( 2 ) == [ [2.0, 0.0, 0.0], [4.0, 0.0, 0.0] ]
-    @test field_fc.field_value( 1, 0.5 ) == [ 1.0, 0.0, 0.0 ]
-    @test field_fc.field_value( 2, 0.5 ) == [ 3.0, 0.0, 0.0 ]
-    @test field_fc.field_parametric_gradient( 1, 0.5 ) == [ 2.0, 0.0, 0.0 ]
-    @test field_fc.field_parametric_gradient( 2, 0.5 ) == [ 2.0, 0.0, 0.0 ]
+    @test field_fc.field_value( 1, [ 0.5 ] ) == [ 1.0, 0.0, 0.0 ]
+    @test field_fc.field_value( 2, [ 0.5 ] ) == [ 3.0, 0.0, 0.0 ]
+    @test field_fc.field_parametric_gradient( 1, [ 0.5 ] ) == [ 2.0, 0.0, 0.0 ]
+    @test field_fc.field_parametric_gradient( 2, [ 0.5 ] ) == [ 2.0, 0.0, 0.0 ]
 end

@@ -26,10 +26,10 @@ using Test
     @test bm_fc.extraction_operator_on_element( 2 )[ 1, 2 ] == 0.0
     @test bm_fc.extraction_operator_on_element( 2 )[ 2, 1 ] == 0.0
     @test bm_fc.extraction_operator_on_element( 2 )[ 2, 2 ] == 1.0
-    @test isapprox( bm_fc.local_basis_value( 1, 0.5 )[ 1 ], 0.5 )
-    @test isapprox( bm_fc.local_basis_value( 1, 0.5 )[ 2 ], 0.5 )
-    @test bm_fc.local_basis_parametric_gradient( 1, 0.5 )[ 1 ] == -1.0
-    @test bm_fc.local_basis_parametric_gradient( 1, 0.5 )[ 2 ] == 1.0
+    @test isapprox( bm_fc.local_basis_value( [ 1 ], [ 0.5 ] )[ 1 ], 0.5 )
+    @test isapprox( bm_fc.local_basis_value( [ 1 ], [ 0.5 ] )[ 2 ], 0.5 )
+    @test bm_fc.local_basis_parametric_gradient( [ 1 ], [ 0.5 ] )[ 1 ] == -1.0
+    @test bm_fc.local_basis_parametric_gradient( [ 1 ], [ 0.5 ] )[ 2 ] == 1.0
 end
 
 @testset "BasisMesh.jl U-splines" begin

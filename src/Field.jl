@@ -31,7 +31,7 @@ function field_parametric_gradient( bm_fc, bs_fc, nodes )
     return field_parametric_gradient( e, xi ) = field_evaluator( e, xi, nodes_on_element( bm_fc, nodes ), bs_fc.global_basis_parametric_gradient )
 end
 
-function field_evaluator( e::Integer, xi::Real, nodes_on_element::Function, global_basis_evaluator::Function )
+function field_evaluator( e::Integer, xi::Array{ Float64, 1 }, nodes_on_element::Function, global_basis_evaluator::Function )
     coeffs = nodes_on_element( e )
     basis = global_basis_evaluator( e, xi )
     return sum( coeffs[ i ] * basis[ i ] for i in 1 : length( basis ) )

@@ -24,16 +24,16 @@ function layout_cut_cell_domains( element_count::Function, d_bc_fc, n_bc_fc, inv
     nodes_d = d_bc_fc.nodes( 1 )
     for n in 1 : size( nodes_d, 1 )
         e, x = inverse_map.geometric_map_inversion( nodes_d[ n ], 0, 0.0 )
-        if ( abs( x - 0.0 ) > 1e-10 ) && ( abs( x - 1.0 ) > 1e-10 )
-            append!( cells[ e ], x )
+        if ( abs( x[ 1 ] - 0.0 ) > 1e-10 ) && ( abs( x[ 1 ] - 1.0 ) > 1e-10 )
+            append!( cells[ e ], x[ 1 ] )
         end
     end
 
     nodes_n = n_bc_fc.nodes( 1 )
     for n in 1 : size( nodes_n, 1 )
         e, x = inverse_map.geometric_map_inversion( nodes_n[ n ], 0, 0.0 )
-        if ( abs( x - 0.0 ) > 1e-10 ) && ( abs( x - 1.0 ) > 1e-10 )
-            append!( cells[ e ], x )
+        if ( abs( x[ 1 ] - 0.0 ) > 1e-10 ) && ( abs( x[ 1 ] - 1.0 ) > 1e-10 )
+            append!( cells[ e ], x[ 1 ] )
         end
     end
 
