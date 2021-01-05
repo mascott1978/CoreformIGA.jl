@@ -3,6 +3,7 @@ module BoundaryCondition
 struct Layout
     bc_num
     nodes
+    dofs # format: [ [ [], [] ], [ [], [] ] ]. The inner [] indicates the fixed dof index for a specific node.
     basis_meshes
     quadrature_layouts
     geom_inv_maps
@@ -12,6 +13,7 @@ end
 struct FunctionCollection
     bc_num::Function
     nodes::Function
+    dofs::Function
     basis_mesh::Function
     quadrature_layout::Function
     geom_inv_map::Function
@@ -21,6 +23,7 @@ end
 function function_collection( layout::Layout )
     return FunctionCollection( bc_num( layout ),
                                nodes( layout ),
+                               dofs( layout ),
                                basis_mesh( layout ),
                                quadrature_layout( layout ),
                                geom_inv_map( layout ),
@@ -34,6 +37,10 @@ end
 
 function nodes( layout::Layout )
     return nodes( i ) = layout.nodes[ i ]
+end
+
+function dofs( layout::Layout )
+    return dofs( i ) = layout.dofs[ i ]
 end
 
 function basis_mesh( layout::Layout )

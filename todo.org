@@ -9,7 +9,7 @@
 *** If we really want to explore things deeply, we need to use the inverse mapping functionalities from igx code.
 
 ** Assembler.  
-*** Right now we are using global_function_id_on_element to find the stiffness matrix to index. However, here global_function_id_on_element refers to global basis function ids. For 2D problem, this will not work any more. We need something like ID arrays to index. Need to discuss about this part.
+*** Right now we are using global_function_id_on_element to find the stiffness matrix to index. However, here global_function_id_on_element refers to global basis function ids. For 2D problem, this will not work any more. We need something like ID arrays to index.
 
 ** Convergence study on 1D case
 *** tip displacement
