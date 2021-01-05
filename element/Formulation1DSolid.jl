@@ -10,7 +10,7 @@ function function_collection()
 end
 
 function dis_strain_mat()
-    return dis_strain_mat( basis_value ) = [ basis_value ]
+    return dis_strain_mat( basis_value ) =  ones( 1, 1 ) * basis_value
 end
 
 function dofn()
