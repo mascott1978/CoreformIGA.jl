@@ -102,11 +102,23 @@ function global_function_count( layout::Layout )
 end
 
 function global_function_count_on_element( layout::Layout )
-    return global_function_count_on_element( e ) = layout.degrees[ e ][ 1 ] + 1 #FIXME
+    return global_function_count_on_element( e ) = begin
+        r = layout.degrees[ e ][ 1 ] + 1
+        for i in 2 : length( layout.degrees[ e ] )
+            r *= layout.degrees[ e ][ i ]
+        end
+        r
+    end
 end
 
 function local_function_count_on_element( layout::Layout )
-    return local_function_count_on_element( e ) = layout.degrees[ e ][ 1 ] + 1 #FIXME
+    return global_function_count_on_element( e ) = begin
+        r = layout.degrees[ e ][ 1 ] + 1
+        for i in 2 : length( layout.degrees[ e ] )
+            r *= layout.degrees[ e ][ i ]
+        end
+        r
+    end
 end
 
 function global_function_id_on_element( layout::Layout )
@@ -250,12 +262,12 @@ function build_uspline_nullspace_matrix( degrees::Array{<:Integer}, smoothnesses
         for k in 0:smoothnesses[i]
             if i > 1
                 S[ constraint_index, local_to_global( i-1, 0 ) : local_to_global( i-1, degrees[i-1] ) ] =
-                    BasisBernstein.dBdxi( degrees[i-1], k, 1.0 ) / ( lengths[ i - 1 ] )^k
+                    BasisBernstein.dBdxi( [ degrees[i-1] ], [ k ], [ 1.0 ] ) / ( lengths[ i - 1 ] )^k
             end
 
             if i <= num_elems
                 S[ constraint_index, local_to_global( i, 0 ) : local_to_global( i, degrees[i] ) ] =
-                    -BasisBernstein.dBdxi( degrees[i], k, 0.0 ) / ( lengths[ i ] )^k
+                    -BasisBernstein.dBdxi( [ degrees[i] ], [ k ], [ 0.0 ] ) / ( lengths[ i ] )^k
             end
             constraint_index += 1
         end
