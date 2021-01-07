@@ -262,12 +262,12 @@ function build_uspline_nullspace_matrix( degrees::Array{<:Integer}, smoothnesses
         for k in 0:smoothnesses[i]
             if i > 1
                 S[ constraint_index, local_to_global( i-1, 0 ) : local_to_global( i-1, degrees[i-1] ) ] =
-                    BasisBernstein.dBdxi( [ degrees[i-1] ], [ k ], [ 1.0 ] ) / ( lengths[ i - 1 ] )^k
+                    BasisBernstein.dnBdxin( [ degrees[i-1] ], [ k ], [ 1.0 ] ) / ( lengths[ i - 1 ] )^k
             end
 
             if i <= num_elems
                 S[ constraint_index, local_to_global( i, 0 ) : local_to_global( i, degrees[i] ) ] =
-                    -BasisBernstein.dBdxi( [ degrees[i] ], [ k ], [ 0.0 ] ) / ( lengths[ i ] )^k
+                    -BasisBernstein.dnBdxin( [ degrees[i] ], [ k ], [ 0.0 ] ) / ( lengths[ i ] )^k
             end
             constraint_index += 1
         end
