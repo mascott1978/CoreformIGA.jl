@@ -11,4 +11,5 @@ include( "./unit/testBEXTImport.jl" )
 
 # system tests
 include( "./system/1d_traction_1element.jl" )
+include( "./system/1d_body_and_traction_flex_4_element.jl" )
 
