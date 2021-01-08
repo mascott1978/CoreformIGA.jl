@@ -27,7 +27,7 @@ import CoreformIGA
     nodes_traction_bdry = [1]
 
     chi(x) = x >= 0 && x <= 1 ? 1.0 : 1e-9
-    penalty_constraint(x) = 1
+    penalty_constraint(x) = ones(1,1)
     constraint(x) = zeros(1,1)
     E(x) = 1
     A(x) = 1
@@ -73,7 +73,7 @@ import CoreformIGA
     unused_e = 0
     unused_xi = 0
     e_inv, xi_inv = mi_interior_fc.geometric_map_inversion( x_sol, unused_e, unused_xi )
-    tip_displacement = field_fc.field_value( e_inv, xi_inv )
+    tip_displacement = field_fc.field_value( e_inv, [xi_inv] )
     tol = 1e-3
     @test tip_displacement >= 4/3 - tol
     @test tip_displacement <= 4/3 + tol
