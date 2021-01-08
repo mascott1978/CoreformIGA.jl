@@ -73,7 +73,7 @@ import CoreformIGA
     unused_e = 0
     unused_xi = 0
     e_inv, xi_inv = mi_interior_fc.geometric_map_inversion( x_sol, unused_e, unused_xi )
-    tip_displacement = field_fc.field_value( e_inv, [xi_inv] )
+    tip_displacement = field_fc.field_value( e_inv, xi_inv )
     tol = 1e-3
     @test tip_displacement >= 4/3 - tol
     @test tip_displacement <= 4/3 + tol

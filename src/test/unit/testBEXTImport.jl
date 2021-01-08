@@ -11,7 +11,7 @@ using LinearAlgebra
     bm_interior_fc = CoreformIGA.BasisMesh.function_collection( layout_interior )
 
     @test bm_interior_fc.element_count() == 2
-    @test bm_interior_fc.element_degree( 1 ) == 2
+    @test bm_interior_fc.element_degree( 1 ) == [ 2 ]
     @test bm_interior_fc.global_function_count() == 4
     @test bm_interior_fc.global_function_count_on_element( 1 ) == 3
     @test bm_interior_fc.local_function_count_on_element( 1 ) == 3

@@ -29,7 +29,7 @@ end
 function get1dLayoutFromBEXT( file )
     p, ee, en, ns = bext( file )
     elem_n = size(en)[1]
-    degrees = [ x[1] for x in p ] # [ [ 1, -1, -1 ], [ 1, -1, -1 ], [ p-s, p-t, p-u ] ... ]
+    degrees = [ [ x[1] ] for x in p ] # [ [ 1, -1, -1 ], [ 1, -1, -1 ], [ p-s, p-t, p-u ] ... ]
     smoothnesses = [ ] #Blank for BEXT
     ops = [ vcat(transpose.(vecs)...) for vecs in ee ]
     EG = [x .+ 1 for x in en] #EG(e,i ) EG[e][i]
