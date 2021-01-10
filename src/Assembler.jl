@@ -23,12 +23,14 @@ function assembleInnerProduct!( i_fc::Integral.FunctionCollectionIntegral,
 
         for a in 1 : fs_test_fc.global_function_count_on_element( e_test_i )
             a_global_func_id = fs_test_fc.global_function_id_on_element( e_test_i, a )
-            a_local_dof_ids = findall( x-> x>0 , test_dof_ids[ a_global_func_id, : ] )
-            a_global_dof_ids = test_dof_ids[ a_global_func_id, a_local_dof_ids ]
+            a_local_dof_ids = findall( x-> x>0 , test_dof_ids.global_dof_id( a_global_func_id ) )
+            temp = cat( test_dof_ids.global_dof_id( a_global_func_id ), dims=1 )
+            a_global_dof_ids = temp[ a_local_dof_ids ]
             for b in 1 : fs_trial_fc.global_function_count_on_element( e_trial_i )
                 b_global_func_id = fs_trial_fc.global_function_id_on_element( e_trial_i, b )
-                b_local_dof_ids = findall( x-> x>0 , trial_dof_ids[ b_global_func_id, : ] )
-                b_global_dof_ids = trial_dof_ids[ b_global_func_id, b_local_dof_ids ]
+                b_local_dof_ids = findall( x-> x>0 , trial_dof_ids.global_dof_id( b_global_func_id ) )
+                b_local_dofs = cat(trial_dof_ids.global_dof_id( b_global_func_id ), dims = 1 ) 
+                b_global_dof_ids = b_local_dofs[ b_local_dof_ids ]
                 nodal_M = weighting_i * disp_strain_mat( M_i[ a ] ) * disp_strain_mat( N_i[ b ] )* w_i
                 M[ a_global_dof_ids, b_global_dof_ids ] = M[ a_global_dof_ids, b_global_dof_ids ] + nodal_M[ a_local_dof_ids, b_local_dof_ids ]
             end
@@ -52,8 +54,9 @@ function assembleProjection!( i_fc::Integral.FunctionCollectionIntegral,
 
         for a in 1 : fs_test_fc.global_function_count_on_element( e_test_i )
             a_global_func_id = fs_test_fc.global_function_id_on_element( e_test_i, a )
-            a_local_dof_ids = findall( x-> x>0 , test_dof_ids[ a_global_func_id, : ] )
-            a_global_dof_ids = test_dof_ids[ a_global_func_id, a_local_dof_ids ]
+            a_local_dof_ids = findall( x-> x>0 , test_dof_ids.global_dof_id( a_global_func_id ) )
+            temp = cat( test_dof_ids.global_dof_id( a_global_func_id ), dims = 1 )
+            a_global_dof_ids =  temp[ a_local_dof_ids ]
             nodal_F = weighting_i * M_i[ a ] * w_i
             F[ a_global_dof_ids ] = F[ a_global_dof_ids ] + nodal_F[ a_local_dof_ids ]
         end

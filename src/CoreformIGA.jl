@@ -14,5 +14,6 @@ include("Geometry.jl")
 include("Formulation1DSolid.jl")
 include("FlexRepresentationMethod.jl")
 include("Viz.jl")
-include("BoundaryCondition.jl")
+include("Index.jl")
+include("ContinuousComponent.jl")
 end
