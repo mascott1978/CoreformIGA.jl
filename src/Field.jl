@@ -3,6 +3,7 @@ module Field
 struct FunctionCollection
     node_on_element::Function
     nodes_on_element::Function
+    nodes_on_domain::Function
     field_value::Function
     field_parametric_gradient::Function
 end
@@ -11,6 +12,7 @@ function function_collection( bm_fc, bs_fc, nodes )
 
     return FunctionCollection( node_on_element( bm_fc, nodes ),
                                nodes_on_element( bm_fc, nodes ),
+                               nodes_on_domain( nodes ),
                                field_value( bm_fc, bs_fc, nodes ),
                                field_parametric_gradient( bm_fc, bs_fc, nodes ) )
 end
@@ -21,6 +23,10 @@ end
 
 function nodes_on_element( bm_fc, nodes )
     return nodes_on_element( e ) = [ nodes[ bm_fc.global_function_id_on_element( e, a ) ] for a in 1 : bm_fc.global_function_count_on_element( e ) ]
+end
+
+function nodes_on_domain( nodes )
+    return nodes_on_domain( i ) = nodes[ :, i ]
 end
 
 function field_value( bm_fc, bs_fc, nodes )

@@ -20,13 +20,39 @@ using Test
     constraint(x) = 0
     traction(x) = 1
 
-    dirichlet_bc_layouts  = CoreformIGA.BoundaryCondition.Layout( 1, [[]], [[[]]], [ CoreformIGA.BasisMesh.layout_bspline_0d() ], [ CoreformIGA.Quadrature.layout_gauss_legendre_0d() ], [ CoreformIGA.Geometry.function_collection_map_inversion_1d ], [ constraint ] )
-    dirichlet_bcs_fc = CoreformIGA.BoundaryCondition.function_collection( dirichlet_bc_layouts )
+    # dirichlet_bc_layouts  = CoreformIGA.BoundaryCondition.Layout( 1, [[]], [[[]]], [ CoreformIGA.BasisMesh.layout_bspline_0d() ], [ CoreformIGA.Quadrature.layout_gauss_legendre_0d() ], [ CoreformIGA.Geometry.function_collection_map_inversion_1d ], [ constraint ] )
+    # dirichlet_bcs_fc = CoreformIGA.BoundaryCondition.function_collection( dirichlet_bc_layouts )
 
-    neumann_bc_layouts  = CoreformIGA.BoundaryCondition.Layout( 1, [[ 2.4 ]], [[[]]], [ CoreformIGA.BasisMesh.layout_bspline_0d() ], [ CoreformIGA.Quadrature.layout_gauss_legendre_0d() ], [ CoreformIGA.Geometry.function_collection_map_inversion_1d ], [ traction ] )
-    neumann_bcs_fc = CoreformIGA.BoundaryCondition.function_collection( neumann_bc_layouts )
+    dirichlet_index_layout = CoreformIGA.Index.Layout( 1, 1, [[1]] )
+    dirichlet_index_fc = CoreformIGA.Index.function_collection( dirichlet_index_layout )
 
-    layout = CoreformIGA.Quadrature.layout_gauss_legendre_1d( element_count, element_degree, inv, dirichlet_bcs_fc, neumann_bcs_fc, #=unused input parameter=# 0 )
+    bm_c_bdry_fc = CoreformIGA.BasisMesh.function_collection( CoreformIGA.BasisMesh.layout_bspline_0d() )
+    bs_c_bdry_fc = CoreformIGA.BasisSpline.function_collection( bm_c_bdry_fc )
+    nodes_constraint_bdry = []
+    geom_c_bdry_fc = CoreformIGA.Field.function_collection( bm_c_bdry_fc, bs_c_bdry_fc, nodes_constraint_bdry ) 
+
+    q_c_bdry_fc = CoreformIGA.Quadrature.function_collection_quadrature( CoreformIGA.Quadrature.layout_gauss_legendre_0d() )
+
+    mi_c_bdry_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_c_bdry_fc, geom_c_bdry_fc ) 
+    fs_c_bdry_N_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_c_bdry_fc, mi_c_bdry_fc, bs_c_bdry_fc.global_basis_value )
+
+    dirichlet_bc_fc = CoreformIGA.ContinuousComponent.function_collection( constraint, dirichlet_index_fc, geom_c_bdry_fc, q_c_bdry_fc, fs_c_bdry_N_fc )
+
+    # neumann_bc_layouts  = CoreformIGA.BoundaryCondition.Layout( 1, [[ 2.4 ]], [[[]]], [ CoreformIGA.BasisMesh.layout_bspline_0d() ], [ CoreformIGA.Quadrature.layout_gauss_legendre_0d() ], [ CoreformIGA.Geometry.function_collection_map_inversion_1d ], [ traction ] )
+    # neumann_bcs_fc = CoreformIGA.BoundaryCondition.function_collection( neumann_bc_layouts )
+
+    bm_t_neumann_fc = CoreformIGA.BasisMesh.function_collection( CoreformIGA.BasisMesh.layout_bspline_0d() )
+    bs_t_neumann_fc = CoreformIGA.BasisSpline.function_collection( bm_t_neumann_fc )
+    geom_t_neumann_fc = CoreformIGA.Field.function_collection( bm_t_neumann_fc, bs_t_neumann_fc, [ [ 2. 4] ] ) 
+
+    q_t_neumann_fc = CoreformIGA.Quadrature.function_collection_quadrature( CoreformIGA.Quadrature.layout_gauss_legendre_0d() )
+
+    mi_t_neumann_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_t_neumann_fc, geom_t_neumann_fc ) # included in FunctionSpacce
+    fs_t_neumann_N_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_t_neumann_fc, mi_t_neumann_fc, bs_t_neumann_fc.global_basis_value )
+
+    neumann_bc_fc = CoreformIGA.ContinuousComponent.function_collection( traction, dirichlet_index_fc, geom_t_neumann_fc, q_t_neumann_fc, fs_t_neumann_N_fc )
+
+    layout = CoreformIGA.Quadrature.layout_gauss_legendre_1d( element_count, element_degree, inv, dirichlet_bc_fc, neumann_bc_fc, #=unused input parameter=# 0 )
     @test abs( layout.quadrature_points[ 1 ][ 1 ] - 0.112702 ) < 1e-5
     @test abs( layout.quadrature_points[ 2 ][ 1 ] - 0.500000 ) < 1e-5
     @test abs( layout.quadrature_points[ 3 ][ 1 ] - 0.887298 ) < 1e-5
