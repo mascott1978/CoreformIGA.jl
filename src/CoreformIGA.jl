@@ -1,5 +1,6 @@
 module CoreformIGA
 
+include("Index.jl")
 include("Quadrature.jl")
 include("BasisBernstein.jl")
 include("BasisMesh.jl")
@@ -14,6 +15,5 @@ include("Geometry.jl")
 include("Formulation1DSolid.jl")
 include("FlexRepresentationMethod.jl")
 include("Viz.jl")
-include("Index.jl")
 include("ContinuousComponent.jl")
 end

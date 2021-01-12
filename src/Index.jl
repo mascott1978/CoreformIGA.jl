@@ -1,11 +1,26 @@
+"""
+Handle DOFs index for each continuous index.
+"""
 module Index
 
+"""
+# Members:
+- `start_id::Int64`: the start index of all indexes
+- `end_id::Int64`: the end index of all indexes
+- `ID`: a one-dimensional array formatted as: [ [], [], ... ]. The ``i``th inter array indicates the index of dofs of ``i``th node.
+"""
 struct Layout
     start_id::Int64
     end_id::Int64
-    ID # format: [ [], [], ... ], a one-dimensional array. Each inter array indicates the index of dofs of that node 
+    ID  
 end
 
+"""
+# Members:
+- `start_id::Function`: get the start index
+- `end_id::Function`: get the end index
+- `global_dof_id::Function`: get the global DOF index of the ``i``th node.
+"""
 struct FunctionCollection
     start_id::Function
     end_id::Function
