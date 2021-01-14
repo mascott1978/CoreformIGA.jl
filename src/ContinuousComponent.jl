@@ -28,28 +28,22 @@ struct FunctionCollection
                                  index_fc::Index.FunctionCollection,
                                  geom_field_fc::Field.FunctionCollection,
                                  quadrature_fc::Quadrature.FunctionCollectionQuadrature,
-                                 fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace )
-        new( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc )
-    end
-
-    function FunctionCollection( f::Function,
-                                 index_fc::Index.FunctionCollection,
-                                 geom_field_fc::Field.FunctionCollection,
-                                 quadrature_fc::Quadrature.FunctionCollectionQuadrature,
-                                 fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace,
-                                 fs_dNds_fc::FunctionSpace.FunctionCollectionFunctionSpace)
-        new( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc, fs_dNds_fc )
+                                 fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace, x... )
+        if length( x ) == 0
+            new( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc )
+        elseif length( x ) == 1
+            new( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc, x[1] )
+        end
     end
 end
 
 
-function function_collection( f::Function, index_fc::Index.FunctionCollection, geom_field_fc::Field.FunctionCollection, quadrature_fc::Quadrature.FunctionCollectionQuadrature, fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace )
-    return FunctionCollection( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc )
-end
-
-
-function function_collection( f::Function, index_fc::Index.FunctionCollection, geom_field_fc::Field.FunctionCollection, quadrature_fc::Quadrature.FunctionCollectionQuadrature, fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace, fs_dNds_fc::FunctionSpace.FunctionCollectionFunctionSpace )
-    return FunctionCollection( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc, fs_dNds_fc )
+function function_collection( f::Function, index_fc::Index.FunctionCollection, geom_field_fc::Field.FunctionCollection, quadrature_fc::Quadrature.FunctionCollectionQuadrature, fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace, x... )
+    if length( x ) == 0
+       return FunctionCollection( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc )
+    else
+       return FunctionCollection( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc, x... )
+    end 
 end
 
 end
