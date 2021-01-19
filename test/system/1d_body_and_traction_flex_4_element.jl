@@ -27,48 +27,12 @@ import CoreformIGA
     nodes_traction_bdry = [1]
 
     chi(x) = x >= 0 && x <= 1 ? 1.0 : 1e-9
-    penalty_constraint(x) = ones(1,1)
-    constraint(x) = zeros(1,1)
+    penalty_constraint(x) = 1
+    constraint(x) = 0
     E(x) = 1
     A(x) = 1
-    load(x) = fill( x, (1,1))
-    traction(x) = ones( 1, 1 )
-
-
-    # dirichlet_bc_layouts  = CoreformIGA.BoundaryCondition.Layout( 1, [ nodes_constraint_bdry ], [ [ [ 1 ] ] ], [ CoreformIGA.BasisMesh.layout_bspline_0d() ], [ CoreformIGA.Quadrature.layout_gauss_legendre_0d() ], [ CoreformIGA.Geometry.function_collection_map_inversion_1d ], [ constraint ] )
-    # dirichlet_bcs_fc = CoreformIGA.BoundaryCondition.function_collection( dirichlet_bc_layouts )
-
-    index = zeros(Int64,1,1)
-    index[1,1] = 1
-    dirichlet_index_layout = CoreformIGA.Index.Layout( 1, 1, index )
-    dirichlet_index_fc = CoreformIGA.Index.function_collection( dirichlet_index_layout )
-
-    bm_c_bdry_fc = CoreformIGA.BasisMesh.function_collection( CoreformIGA.BasisMesh.layout_bspline_0d() )
-    bs_c_bdry_fc = CoreformIGA.BasisSpline.function_collection( bm_c_bdry_fc )
-    geom_c_bdry_fc = CoreformIGA.Field.function_collection( bm_c_bdry_fc, bs_c_bdry_fc, nodes_constraint_bdry ) 
-
-    q_c_bdry_fc = CoreformIGA.Quadrature.function_collection_quadrature( CoreformIGA.Quadrature.layout_gauss_legendre_0d() )
-
-    mi_c_bdry_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_c_bdry_fc, geom_c_bdry_fc ) 
-    fs_c_bdry_N_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_c_bdry_fc, mi_c_bdry_fc, bs_c_bdry_fc.global_basis_value )
-
-    dirichlet_bc_fc = CoreformIGA.ContinuousComponent.function_collection( constraint, dirichlet_index_fc, geom_c_bdry_fc, q_c_bdry_fc, fs_c_bdry_N_fc )
-
-
-    # neumann_bc_layouts  = CoreformIGA.BoundaryCondition.Layout( 1, [ nodes_traction_bdry ], [ [ [ 1 ] ] ], [ CoreformIGA.BasisMesh.layout_bspline_0d() ], [ CoreformIGA.Quadrature.layout_gauss_legendre_0d() ], [ CoreformIGA.Geometry.function_collection_map_inversion_1d ], [ traction ] )
-    # neumann_bcs_fc = CoreformIGA.BoundaryCondition.function_collection( neumann_bc_layouts )
-
-    bm_t_neumann_fc = CoreformIGA.BasisMesh.function_collection( CoreformIGA.BasisMesh.layout_bspline_0d() )
-    bs_t_neumann_fc = CoreformIGA.BasisSpline.function_collection( bm_t_neumann_fc )
-    geom_t_neumann_fc = CoreformIGA.Field.function_collection( bm_t_neumann_fc, bs_t_neumann_fc, nodes_traction_bdry ) 
-
-    q_t_neumann_fc = CoreformIGA.Quadrature.function_collection_quadrature( CoreformIGA.Quadrature.layout_gauss_legendre_0d() )
-
-    mi_t_neumann_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_t_neumann_fc, geom_t_neumann_fc ) # included in FunctionSpacce
-    fs_t_neumann_N_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_t_neumann_fc, mi_t_neumann_fc, bs_t_neumann_fc.global_basis_value )
-
-    neumann_bc_fc = CoreformIGA.ContinuousComponent.function_collection( traction, dirichlet_index_fc, geom_t_neumann_fc, q_t_neumann_fc, fs_t_neumann_N_fc )
-
+    load(x) = x
+    traction(x) = 1
 
     interior_index = zeros(Int64, 1,6)
     interior_index[1,:] = [ 1 2 3 4 5 6]
@@ -80,27 +44,79 @@ import CoreformIGA
     geom_interior_fc = CoreformIGA.Field.function_collection( bm_interior_fc, bs_interior_fc, nodes_interior )
 
     mi_interior_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_interior_fc, geom_interior_fc )
-    q_interior_fc = CoreformIGA.Quadrature.function_collection_quadrature( quad_rules_interior( bm_interior_fc.element_count, bm_interior_fc.element_degree, mi_interior_fc, dirichlet_bc_fc, neumann_bc_fc ) )
+    q_interior_fc = CoreformIGA.Quadrature.function_collection_quadrature( quad_rules_interior( bm_interior_fc.element_count, bm_interior_fc.element_degree, mi_interior_fc, 0, 1 ) )
 
-    fs_interior_N_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_interior_fc, mi_interior_fc, bs_interior_fc.global_basis_value )
-    fs_interior_dNdx_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_interior_fc, mi_interior_fc, bs_interior_fc.global_basis_parametric_gradient )
+    fs_interior_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_interior_fc, mi_interior_fc, bs_interior_fc )
 
-    interior_fc = CoreformIGA.ContinuousComponent.function_collection( load, interior_index_fc, geom_interior_fc, q_interior_fc, fs_interior_N_fc, fs_interior_dNdx_fc )
+    formulation_fc = CoreformIGA.Formulation1DSolid.function_collection()
 
-    #disp_strain_mat( x ) = CoreformIGA.Formulation1DSolid.dis_strain_mat( x )
-    formulation = CoreformIGA.Formulation1DSolid.function_collection()
+    K_integrand( x, xi_test_i, e_test_i, xi_trial_i, e_trial_i, wi, geom_field_fc, test_fs_fc, trial_fs_fc ) = chi( x ) * E( x ) * A( x ) * wi * formulation_fc.K_mat( test_fs_fc, trial_fs_fc, geom_field_fc, xi_test_i, e_test_i, xi_trial_i, e_trial_i )
+    K_integral = CoreformIGA.Integral.function_collection_integral( q_interior_fc, K_integrand, "LHS_SYM" )
+
+    K_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( K_integral,
+                                                                                geom_interior_fc,
+                                                                                interior_index_fc,
+                                                                                interior_index_fc,
+                                                                                fs_interior_fc,
+                                                                                fs_interior_fc )
+
+    F_body_integrand( x, xi_test_i, e_test_i, wi, geom_field_fc, test_fs_fc ) = chi( x ) * load( x ) * wi * formulation_fc.body_force_vec( test_fs_fc, geom_field_fc, xi_test_i, e_test_i )
+    F_body_integral = CoreformIGA.Integral.function_collection_integral( q_interior_fc, F_body_integrand, "RHS" )
+    F_body_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( F_body_integral, geom_interior_fc, interior_index_fc, interior_index_fc, fs_interior_fc, fs_interior_fc )
 
 
-    K, M, B, F, G, H = CoreformIGA.FlexRepresentationMethod.assemble( interior_fc,
-                                                                      [ dirichlet_bc_fc ],
-                                                                      [ neumann_bc_fc ],
-                                                                      formulation,
-                                                                      chi,
-                                                                      penalty_constraint,
-                                                                      E,
-                                                                      A )
+    # dirichlet bcs
+    index = zeros(Int64,1,1)
+    index[1,1] = 7
+    dirichlet_index_layout = CoreformIGA.Index.Layout( 7, 7, index )
+    dirichlet_index_fc = CoreformIGA.Index.function_collection( dirichlet_index_layout )
 
-    d, cond = solve1dSystem( K, B, F, G )
+    bm_c_bdry_fc = CoreformIGA.BasisMesh.function_collection( CoreformIGA.BasisMesh.layout_bspline_0d() )
+    bs_c_bdry_fc = CoreformIGA.BasisSpline.function_collection( bm_c_bdry_fc )
+    geom_c_bdry_fc = CoreformIGA.Field.function_collection( bm_c_bdry_fc, bs_c_bdry_fc, nodes_constraint_bdry ) 
+
+    q_c_bdry_fc = CoreformIGA.Quadrature.function_collection_quadrature( CoreformIGA.Quadrature.layout_gauss_legendre_0d() )
+
+    mi_c_bdry_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_c_bdry_fc, geom_c_bdry_fc ) 
+    fs_c_bdry_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_c_bdry_fc, mi_c_bdry_fc, bs_c_bdry_fc )
+
+    B_integrand( x, xi_test_i, e_test_i, xi_trial_i, e_trial_i, wi, geom_field_fc, test_fs_fc, trial_fs_fc ) =  wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i ) * ( trial_fs_fc.global_basis_evaluator( e_trial_i, xi_trial_i )' )                                    
+    B_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, B_integrand, "LHS_NONSYM" )
+    B_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( B_integral, geom_c_bdry_fc, dirichlet_index_fc, interior_index_fc, fs_c_bdry_fc, fs_interior_fc )
+
+    G_integrand( x, xi_test_i, e_test_i, wi, geom_field_fc, test_fs_fc ) = constraint( x ) * wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i )                                    
+    G_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, G_integrand, "RHS" )
+    G_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( G_integral, geom_c_bdry_fc, dirichlet_index_fc, dirichlet_index_fc, fs_c_bdry_fc, fs_c_bdry_fc )
+
+    H_integrand( x, xi_test_i, e_test_i, wi, geom_field_fc, test_fs_fc ) = penalty_constraint( x ) * constraint( x ) * wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i )
+    H_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, H_integrand, "RHS" )
+    H_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( H_integral, geom_c_bdry_fc, interior_index_fc, interior_index_fc, fs_interior_fc, fs_interior_fc )
+
+    M_integrand( x, xi_test_i, e_test_i, xi_trial_i, e_trial_i, wi, geom_field_fc, test_fs_fc, trial_fs_fc ) = penalty_constraint( x ) * wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i ) * ( trial_fs_fc.global_basis_evaluator( e_trial_i, xi_trial_i )' )                                    
+    M_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, M_integrand, "LHS_SYM" )
+    M_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( M_integral, geom_c_bdry_fc, interior_index_fc, interior_index_fc, fs_interior_fc, fs_interior_fc )
+
+    # Neumann bcs
+    bm_t_neumann_fc = CoreformIGA.BasisMesh.function_collection( CoreformIGA.BasisMesh.layout_bspline_0d() )
+    bs_t_neumann_fc = CoreformIGA.BasisSpline.function_collection( bm_t_neumann_fc )
+    geom_t_neumann_fc = CoreformIGA.Field.function_collection( bm_t_neumann_fc, bs_t_neumann_fc, nodes_traction_bdry ) 
+
+    q_t_neumann_fc = CoreformIGA.Quadrature.function_collection_quadrature( CoreformIGA.Quadrature.layout_gauss_legendre_0d() )
+
+    mi_t_neumann_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_t_neumann_fc, geom_t_neumann_fc ) # included in FunctionSpacce
+    fs_t_neumann_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_t_neumann_fc, mi_t_neumann_fc, bs_t_neumann_fc )
+
+    F_t_integrand( x, xi_test_i, e_test_i, wi, geom_field_fc, test_fs_fc ) = traction( x ) * wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i )
+    F_t_integral = CoreformIGA.Integral.function_collection_integral( q_t_neumann_fc, F_t_integrand, "RHS" )
+    F_t_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( F_t_integral, geom_t_neumann_fc, interior_index_fc, interior_index_fc, fs_interior_fc, fs_interior_fc )
+
+
+
+    continuous_components = [ K_continuous_comp_fc, B_continuous_comp_fc, G_continuous_comp_fc, H_continuous_comp_fc, M_continuous_comp_fc, F_t_continuous_comp_fc, F_body_continuous_comp_fc ]
+    K, F = CoreformIGA.Assembler.assemble( continuous_components )
+
+    d = K\F
+    cond = LinearAlgebra.cond( K )
 
     bm_fc = CoreformIGA.BasisMesh.function_collection( layout_interior )
     bs_fc = CoreformIGA.BasisSpline.function_collection( bm_fc )

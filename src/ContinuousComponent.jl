@@ -6,10 +6,11 @@ using ..Index
 using ..Field
 using ..Quadrature
 using ..FunctionSpace
+using ..Integral
 
 """
 # Members:
-- `f::Function`: specify the applied constraint. More specifically, when applying a constraint, we have ``\\lambda * ( u - f )``.
+- `integral::Integral`: specify the applied constraint. More specifically, when applying a constraint, we have ``\\lambda * ( u - f )``.
 - `index_fc::Index.FunctionCollection`: store the DOFs indexes and related functionalities.
 - `geom_field_fc::Field.FunctionCollection`: offer geometry info. for the inverse mapping and integral weights, etc., in the assembly.
 - `quadrature_fc::Quadrature.FunctionCollectionQuadrature`: offer quadratures functionalities.
@@ -17,33 +18,17 @@ using ..FunctionSpace
 - `fs_dNds_fc::FunctionSpace.FunctionCollectionFunctionSpace`: ( optional ) offer the derivative info of the basis functions.
 """
 struct FunctionCollection
-    f::Function 
-    index_fc::Index.FunctionCollection
+    integral::Integral.FunctionCollectionIntegral 
     geom_field_fc::Field.FunctionCollection 
-    quadrature_fc::Quadrature.FunctionCollectionQuadrature
-    fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace
-    fs_dNds_fc::FunctionSpace.FunctionCollectionFunctionSpace
-
-    function FunctionCollection( f::Function,
-                                 index_fc::Index.FunctionCollection,
-                                 geom_field_fc::Field.FunctionCollection,
-                                 quadrature_fc::Quadrature.FunctionCollectionQuadrature,
-                                 fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace, x... )
-        if length( x ) == 0
-            new( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc )
-        elseif length( x ) == 1
-            new( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc, x[1] )
-        end
-    end
+    test_index_fc::Index.FunctionCollection
+    trial_index_fc::Index.FunctionCollection
+    test_fs_fc::FunctionSpace.FunctionCollectionFunctionSpace
+    trial_fs_fc::FunctionSpace.FunctionCollectionFunctionSpace
 end
 
 
-function function_collection( f::Function, index_fc::Index.FunctionCollection, geom_field_fc::Field.FunctionCollection, quadrature_fc::Quadrature.FunctionCollectionQuadrature, fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace, x... )
-    if length( x ) == 0
-       return FunctionCollection( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc )
-    else
-       return FunctionCollection( f, index_fc, geom_field_fc, quadrature_fc, fs_N_fc, x... )
-    end 
+function function_collection( integral::Integral.FunctionCollectionIntegral, geom_field_fc::Field.FunctionCollection, test_index_fc::Index.FunctionCollection, trial_index_fc::Index.FunctionCollection, test_fs_fc::FunctionSpace.FunctionCollectionFunctionSpace, trial_fs_fc::FunctionSpace.FunctionCollectionFunctionSpace )
+    return FunctionCollection( integral, geom_field_fc, test_index_fc, trial_index_fc, test_fs_fc, trial_fs_fc )
 end
 
 end
