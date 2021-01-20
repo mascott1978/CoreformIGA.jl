@@ -10,12 +10,11 @@ using ..Integral
 
 """
 # Members:
-- `integral::Integral`: specify the applied constraint. More specifically, when applying a constraint, we have ``\\lambda * ( u - f )``.
-- `index_fc::Index.FunctionCollection`: store the DOFs indexes and related functionalities.
-- `geom_field_fc::Field.FunctionCollection`: offer geometry info. for the inverse mapping and integral weights, etc., in the assembly.
-- `quadrature_fc::Quadrature.FunctionCollectionQuadrature`: offer quadratures functionalities.
-- `fs_N_fc::FunctionSpace.FunctionCollectionFunctionSpace`: offer basis function info
-- `fs_dNds_fc::FunctionSpace.FunctionCollectionFunctionSpace`: ( optional ) offer the derivative info of the basis functions.
+- `integral`: specify the integrand and quadrature information;
+- `geom_field_fc`: offer geometry info. for the inverse mapping and integral weights, etc., in the assembly;
+- `test_index_fc`: store the DOFs indexes and related functionalities for the test function space;
+- `trial_index_fc`: store the DOFs indexes and related functionalities for the trial function space;
+- `test_fs_fc`: test function space for evaluating spline functions and indexing them;
 """
 struct FunctionCollection
     integral::Integral.FunctionCollectionIntegral 
@@ -27,8 +26,8 @@ struct FunctionCollection
 end
 
 
-function function_collection( integral::Integral.FunctionCollectionIntegral, geom_field_fc::Field.FunctionCollection, test_index_fc::Index.FunctionCollection, trial_index_fc::Index.FunctionCollection, test_fs_fc::FunctionSpace.FunctionCollectionFunctionSpace, trial_fs_fc::FunctionSpace.FunctionCollectionFunctionSpace )
-    return FunctionCollection( integral, geom_field_fc, test_index_fc, trial_index_fc, test_fs_fc, trial_fs_fc )
+function function_collection( ;integral::Integral.FunctionCollectionIntegral, geom_field::Field.FunctionCollection, test_index::Index.FunctionCollection, trial_index::Index.FunctionCollection, test_function_space::FunctionSpace.FunctionCollectionFunctionSpace, trial_function_space::FunctionSpace.FunctionCollectionFunctionSpace )
+    return FunctionCollection( integral, geom_field, test_index, trial_index, test_function_space, trial_function_space )
 end
 
 end

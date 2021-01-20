@@ -51,18 +51,23 @@ import CoreformIGA
     formulation_fc = CoreformIGA.Formulation1DSolid.function_collection()
 
     K_integrand( x, xi_test_i, e_test_i, xi_trial_i, e_trial_i, wi, geom_field_fc, test_fs_fc, trial_fs_fc ) = chi( x ) * E( x ) * A( x ) * wi * formulation_fc.K_mat( test_fs_fc, trial_fs_fc, geom_field_fc, xi_test_i, e_test_i, xi_trial_i, e_trial_i )
-    K_integral = CoreformIGA.Integral.function_collection_integral( q_interior_fc, K_integrand, "LHS_SYM" )
+    K_integral = CoreformIGA.Integral.function_collection_integral( q_interior_fc, K_integrand, CoreformIGA.Integral.LHS_SYM )
 
-    K_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( K_integral,
-                                                                                geom_interior_fc,
-                                                                                interior_index_fc,
-                                                                                interior_index_fc,
-                                                                                fs_interior_fc,
-                                                                                fs_interior_fc )
+    K_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( integral = K_integral,
+                                                                                geom_field = geom_interior_fc,
+                                                                                test_index = interior_index_fc,
+                                                                                trial_index = interior_index_fc,
+                                                                                test_function_space = fs_interior_fc,
+                                                                                trial_function_space = fs_interior_fc )
 
     F_body_integrand( x, xi_test_i, e_test_i, wi, geom_field_fc, test_fs_fc ) = chi( x ) * load( x ) * wi * formulation_fc.body_force_vec( test_fs_fc, geom_field_fc, xi_test_i, e_test_i )
-    F_body_integral = CoreformIGA.Integral.function_collection_integral( q_interior_fc, F_body_integrand, "RHS" )
-    F_body_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( F_body_integral, geom_interior_fc, interior_index_fc, interior_index_fc, fs_interior_fc, fs_interior_fc )
+    F_body_integral = CoreformIGA.Integral.function_collection_integral( q_interior_fc, F_body_integrand, CoreformIGA.Integral.RHS )
+    F_body_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( integral             = F_body_integral,
+                                                                                     geom_field           = geom_interior_fc,
+                                                                                     test_index           = interior_index_fc,
+                                                                                     trial_index          = interior_index_fc,
+                                                                                     test_function_space  = fs_interior_fc,
+                                                                                     trial_function_space = fs_interior_fc )
 
 
     # dirichlet bcs
@@ -81,20 +86,40 @@ import CoreformIGA
     fs_c_bdry_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_c_bdry_fc, mi_c_bdry_fc, bs_c_bdry_fc )
 
     B_integrand( x, xi_test_i, e_test_i, xi_trial_i, e_trial_i, wi, geom_field_fc, test_fs_fc, trial_fs_fc ) =  wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i ) * ( trial_fs_fc.global_basis_evaluator( e_trial_i, xi_trial_i )' )                                    
-    B_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, B_integrand, "LHS_NONSYM" )
-    B_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( B_integral, geom_c_bdry_fc, dirichlet_index_fc, interior_index_fc, fs_c_bdry_fc, fs_interior_fc )
+    B_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, B_integrand, CoreformIGA.Integral.LHS_NONSYM )
+    B_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( integral             =  B_integral,
+                                                                                geom_field           =  geom_c_bdry_fc,
+                                                                                test_index           =  dirichlet_index_fc,
+                                                                                trial_index          =  interior_index_fc,
+                                                                                test_function_space  =  fs_c_bdry_fc,
+                                                                                trial_function_space =  fs_interior_fc )
 
     G_integrand( x, xi_test_i, e_test_i, wi, geom_field_fc, test_fs_fc ) = constraint( x ) * wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i )                                    
-    G_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, G_integrand, "RHS" )
-    G_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( G_integral, geom_c_bdry_fc, dirichlet_index_fc, dirichlet_index_fc, fs_c_bdry_fc, fs_c_bdry_fc )
+    G_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, G_integrand, CoreformIGA.Integral.RHS )
+    G_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( integral             = G_integral,
+                                                                                geom_field           = geom_c_bdry_fc,
+                                                                                test_index           = dirichlet_index_fc,
+                                                                                trial_index          = dirichlet_index_fc,
+                                                                                test_function_space  = fs_c_bdry_fc,
+                                                                                trial_function_space = fs_c_bdry_fc )
 
     H_integrand( x, xi_test_i, e_test_i, wi, geom_field_fc, test_fs_fc ) = penalty_constraint( x ) * constraint( x ) * wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i )
-    H_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, H_integrand, "RHS" )
-    H_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( H_integral, geom_c_bdry_fc, interior_index_fc, interior_index_fc, fs_interior_fc, fs_interior_fc )
+    H_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, H_integrand, CoreformIGA.Integral.RHS )
+    H_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( integral             = H_integral,
+                                                                                geom_field           = geom_c_bdry_fc,
+                                                                                test_index           = interior_index_fc,
+                                                                                trial_index          = interior_index_fc,
+                                                                                test_function_space  = fs_interior_fc,
+                                                                                trial_function_space = fs_interior_fc )
 
     M_integrand( x, xi_test_i, e_test_i, xi_trial_i, e_trial_i, wi, geom_field_fc, test_fs_fc, trial_fs_fc ) = penalty_constraint( x ) * wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i ) * ( trial_fs_fc.global_basis_evaluator( e_trial_i, xi_trial_i )' )                                    
-    M_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, M_integrand, "LHS_SYM" )
-    M_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( M_integral, geom_c_bdry_fc, interior_index_fc, interior_index_fc, fs_interior_fc, fs_interior_fc )
+    M_integral = CoreformIGA.Integral.function_collection_integral( q_c_bdry_fc, M_integrand, CoreformIGA.Integral.LHS_SYM )
+    M_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( integral             = M_integral,
+                                                                                geom_field           = geom_c_bdry_fc,
+                                                                                test_index           = interior_index_fc,
+                                                                                trial_index          = interior_index_fc,
+                                                                                test_function_space  = fs_interior_fc,
+                                                                                trial_function_space = fs_interior_fc )
 
     # Neumann bcs
     bm_t_neumann_fc = CoreformIGA.BasisMesh.function_collection( CoreformIGA.BasisMesh.layout_bspline_0d() )
@@ -107,8 +132,13 @@ import CoreformIGA
     fs_t_neumann_fc = CoreformIGA.FunctionSpace.function_collection_function_space( bm_t_neumann_fc, mi_t_neumann_fc, bs_t_neumann_fc )
 
     F_t_integrand( x, xi_test_i, e_test_i, wi, geom_field_fc, test_fs_fc ) = traction( x ) * wi * test_fs_fc.global_basis_evaluator( e_test_i, xi_test_i )
-    F_t_integral = CoreformIGA.Integral.function_collection_integral( q_t_neumann_fc, F_t_integrand, "RHS" )
-    F_t_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( F_t_integral, geom_t_neumann_fc, interior_index_fc, interior_index_fc, fs_interior_fc, fs_interior_fc )
+    F_t_integral = CoreformIGA.Integral.function_collection_integral( q_t_neumann_fc, F_t_integrand, CoreformIGA.Integral.RHS )
+    F_t_continuous_comp_fc = CoreformIGA.ContinuousComponent.function_collection( integral             = F_t_integral,
+                                                                                  geom_field           = geom_t_neumann_fc,
+                                                                                  test_index           = interior_index_fc,
+                                                                                  trial_index          = interior_index_fc,
+                                                                                  test_function_space  = fs_interior_fc,
+                                                                                  trial_function_space = fs_interior_fc )
 
 
 

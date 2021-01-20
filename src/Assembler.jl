@@ -16,9 +16,9 @@ function assemble( continuous_components )
 
 
     for i = 1:length(  continuous_components )
-        if ( cmp( continuous_components[ i ].integral.destination, "LHS_SYM" ) == 0 ) || ( cmp( continuous_components[ i ].integral.destination, "LHS_NONSYM" )== 0 )
+        if ( continuous_components[ i ].integral.destination == Integral.LHS_SYM ) || ( continuous_components[ i ].integral.destination == Integral.LHS_NONSYM )
             assembleInnerProduct!( continuous_components[ i ], K )
-        elseif cmp( continuous_components[ i ].integral.destination, "RHS" ) == 0
+        elseif continuous_components[ i ].integral.destination ==  Integral.RHS
             assembleProjection!( continuous_components[ i ], F )
         else
             error("Destination of the integral is note specified correctly!!!")
@@ -42,7 +42,7 @@ function assembleInnerProduct!( continuous_comp_fc::ContinuousComponent.Function
         row_ids = row_ids[:]
         col_ids = col_ids[:]
         K[ row_ids, col_ids ] += K_mat
-        if cmp( continuous_comp_fc.integral.destination, "LHS_NONSYM" ) == 0
+        if continuous_comp_fc.integral.destination == Integral.LHS_NONSYM
             K[ col_ids, row_ids ] += K_mat'
         end
     end
