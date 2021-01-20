@@ -23,7 +23,7 @@ end
 function function_collection_map_inversion_1d( bm_fc, field_fc )
     geometric_map_inversion_predictor = geometric_map_inversion_predictor_sequential_1d( bm_fc, field_fc )
     norm = LinearAlgebra.norm
-    solver_linear( K, R ) = [ ( 1.0 / K ) * R ]
+    solver_linear( K, R ) = [ ( 1.0 / K[1] ) * R[1] ]
     solver_nonlinear = NonlinearSolver.newtonRaphsonIteration
     return FunctionCollectionMapInversion( geometric_map_inversion_predictor,
                                            norm,

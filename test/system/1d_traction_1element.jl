@@ -4,12 +4,15 @@ import CoreformIGA
 
 @testset "1d_traction_1element.jl" begin
     layout_interior = CoreformIGA.CoreformIGA.BasisMesh.layout_bspline_1d_uniform_h_max_k( 1, 1 )
-    nodes_interior = [0,1]
+    nodes_interior = [ [0, 0, 0, 1] [1, 0, 0, 1] ]
     quad_rules_interior( elem_count, elem_deg, inverse_map, d_bc_fc, t_bc_fc ) = CoreformIGA.Quadrature.layout_gauss_legendre_1d( elem_count, elem_deg, inverse_map, d_bc_fc, t_bc_fc, "QP1" )
     geom_inv_map_interior = 
-    nodes_constraint_bdry = [0]
-    nodes_traction_bdry = [1]
-    chi(x) = x >= 0 && x <= 1 ? 1.0 : 1e-12
+    nodes_constraint_bdry = zeros(4,1)
+    nodes_constraint_bdry[ 4 ] = 1
+    nodes_traction_bdry = zeros(4,1)
+    nodes_traction_bdry[ 1 ] = 1
+    nodes_traction_bdry[ 4 ] = 1
+    chi(x) = x[1] >= 0 && x[1] <= 1 ? 1.0 : 1e-12
     penalty_constraint(x) = 1
     constraint(x) = 0
     E(x) = 1

@@ -27,14 +27,10 @@ function quadrature_point( layout::Layout )
     return quadrature_point( i ) = layout.element_id_at_quadrature_point[ i ], layout.quadrature_points[ i ], layout.quadrature_weights[ i ]
 end
 
-
-
 # 0d code
 function layout_gauss_legendre_0d()
     return Layout( [ [ 1.0 ] ], [ 1.0 ], [ 1 ] )
 end
-
-
 
 # 1d code
 function layout_gauss_legendre_1d( element_count::Function, element_degree::Function, inverse_map, d_bc_fc, t_bc_fc, #=What's the point of this second input=#gauss_legendre_rules )
@@ -79,16 +75,18 @@ function layout_cut_cell_domains1d( element_count::Function, d_bc_fc, n_bc_fc, i
     end
 
     nodes_d = d_bc_fc
-    for n in 1 : size( nodes_d, 1 )
-        e, x = inverse_map.geometric_map_inversion( nodes_d[ n ], 0, 0.0 )
+    # for n in 1 : size( nodes_d, 1 )
+    if ~isempty( nodes_d )
+        e, x = inverse_map.geometric_map_inversion( [ nodes_d, 0, 0 ], 0, 0.0 )
         if ( abs( x[ 1 ] - 0.0 ) > 1e-10 ) && ( abs( x[ 1 ] - 1.0 ) > 1e-10 )
             append!( cells[ e ], x[ 1 ] )
         end
     end
 
     nodes_n =  n_bc_fc 
-    for n in 1 : size( nodes_n, 1 )
-        e, x = inverse_map.geometric_map_inversion( nodes_n[ n ], 0, 0.0 )
+    # for n in 1 : size( nodes_n, 1 )
+    if ~isempty( nodes_n )
+        e, x = inverse_map.geometric_map_inversion( [ nodes_n, 0, 0 ], 0, 0.0 )
         if ( abs( x[ 1 ] - 0.0 ) > 1e-10 ) && ( abs( x[ 1 ] - 1.0 ) > 1e-10 )
             append!( cells[ e ], x[ 1 ] )
         end

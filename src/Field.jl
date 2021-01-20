@@ -18,11 +18,11 @@ function function_collection( bm_fc, bs_fc, nodes )
 end
 
 function node_on_element( bm_fc, nodes )
-    return node_on_element( e, a ) = nodes[ bm_fc.global_function_id_on_element( e, a ) ]
+    return node_on_element( e, a ) = nodes[:, bm_fc.global_function_id_on_element( e, a ) ]
 end
 
 function nodes_on_element( bm_fc, nodes )
-    return nodes_on_element( e ) = [ nodes[ bm_fc.global_function_id_on_element( e, a ) ] for a in 1 : bm_fc.global_function_count_on_element( e ) ]
+    return nodes_on_element( e ) = nodes[ :, bm_fc.global_function_ids_on_element( e ) ]
 end
 
 function nodes_on_domain( nodes )
@@ -40,7 +40,7 @@ end
 function field_evaluator( e::Integer, xi::Array{ Float64, 1 }, nodes_on_element::Function, global_basis_evaluator::Function )
     coeffs = nodes_on_element( e )
     basis = global_basis_evaluator( e, xi )
-    return sum( coeffs[ i ] * basis[ i ] for i in 1 : length( basis ) )
+    return coeffs[ 1:3, : ] * basis
 end
 
 # function solveForNodes( node_n::Int64,

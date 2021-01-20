@@ -18,20 +18,26 @@ import CoreformIGA
     file = read(io, String)
     layout_interior, nodes = CoreformIGA.ImportBEXT.get1dLayoutFromBEXT( file )
 
-    nodes_interior = [ node[1] for node in nodes ]
+    nodes_interior = zeros( 4, length( nodes )  )
+    for i = 1:length( nodes )
+        nodes_interior[ :, i ] = nodes[ i ]
+    end
     quad_rules_interior( elem_count, elem_deg, inverse_map, d_bc_fc, t_bc_fc ) = CoreformIGA.Quadrature.layout_gauss_legendre_1d( elem_count, elem_deg, inverse_map, d_bc_fc, t_bc_fc, "QP1" )
 
     geom_inv_map_interior = CoreformIGA.Geometry.function_collection_map_inversion_1d
 
-    nodes_constraint_bdry = [0]
-    nodes_traction_bdry = [1]
+    nodes_constraint_bdry = zeros(4,1)
+    nodes_constraint_bdry[ 4 ] = 1
+    nodes_traction_bdry = zeros(4,1)
+    nodes_traction_bdry[ 1 ] = 1
+    nodes_traction_bdry[ 4 ] = 1
 
-    chi(x) = x >= 0 && x <= 1 ? 1.0 : 1e-9
+    chi(x) = x[ 1 ] >= 0 && x[ 1 ] <= 1 ? 1.0 : 1e-9
     penalty_constraint(x) = 1
     constraint(x) = 0
     E(x) = 1
     A(x) = 1
-    load(x) = x
+    load(x) = x[ 1 ]
     traction(x) = 1
 
     interior_index = zeros(Int64, 1,6)
@@ -151,15 +157,17 @@ import CoreformIGA
     bm_fc = CoreformIGA.BasisMesh.function_collection( layout_interior )
     bs_fc = CoreformIGA.BasisSpline.function_collection( bm_fc )
     geom_fc = CoreformIGA.Field.function_collection( bm_fc, bs_fc, nodes_interior )
-    field = d[1:bm_fc.global_function_count()]
+    field = zeros( 4, 6 )
+    field[1, :] =  d[1:bm_fc.global_function_count()]
+    field[4, :] = ones(1, 6)
     field_fc = CoreformIGA.Field.function_collection( bm_fc, bs_fc, field )
     mi_interior_fc = CoreformIGA.Geometry.function_collection_map_inversion_1d( bm_fc, geom_fc )
-    x_sol = 1.0
+    x_sol = [ 1.0, 0, 0 ]
     unused_e = 0
     unused_xi = 0
     e_inv, xi_inv = mi_interior_fc.geometric_map_inversion( x_sol, unused_e, unused_xi )
     tip_displacement = field_fc.field_value( e_inv, xi_inv )
     tol = 1e-3
-    @test tip_displacement >= 4/3 - tol
-    @test tip_displacement <= 4/3 + tol
+    @test tip_displacement[1] >= 4/3 - tol
+    @test tip_displacement[1] <= 4/3 + tol
 end
