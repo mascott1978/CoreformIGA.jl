@@ -67,11 +67,13 @@ function orthonormalize( K  )
     row_num = size( K, 1 )
     S_sigma = scale( K )
     K_star = S_sigma * K * ( S_sigma' )
+    G = 1*Matrix(I, row_num, row_num )
     for irow = 1:row_num
         # orthogonalize
-        S_sigma[ irow, 1:( irow - 1 ) ] = S_sigma - K_star[ irow, 1: irow ]
+        G[ irow, 1:( irow - 1 ) ] = - K_star[ irow, 1:( irow - 1 ) ]
     end
     # normalize
+    S_sigma = G*S_sigma
     S_sigma = S_sigma./diag( S_sigma )
     return S_sigma
 end
