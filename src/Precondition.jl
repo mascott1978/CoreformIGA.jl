@@ -17,7 +17,7 @@ function precondition( K, r )
 end
 
 function scale( K )
-    D = Diagonal( 1 ./ sqrt.( diag( K ) ) );
+    D = diagm( 1 ./ sqrt.( diag( K ) ) );
 end
 
 function identify_dependency( K, r )
@@ -25,8 +25,8 @@ function identify_dependency( K, r )
     row_num, col_num = size( K )
     for irow = 1:row_num
         i_depend_set = [ irow ]
-        for icol = irow:col_num
-            if K( irow, icol ) > r
+        for icol = ( irow + 1 ):col_num
+            if K[ irow, icol ] > r
                 push!(i_depend_set, icol )
             end
         end
@@ -34,6 +34,7 @@ function identify_dependency( K, r )
             push!( depend_sets, i_depend_set )
         end
     end
+    return depend_sets
 end
 
 function group_dependency( depend_sets )
@@ -53,8 +54,9 @@ function group_dependency( depend_sets )
             if isempty( intersected_set_id )
                 anchor = anchor + 1
             else
-                push!( depend_sets[ anchor - 1 ], vcat( depend_sets[ intersected_set_id ] ) )
+                append!( depend_sets[ anchor - 1 ], vcat( depend_sets[ intersected_set_id ]... ) )
                 unique!( depend_sets[ anchor - 1 ] )
+                sort!( depend_sets[ anchor - 1 ] )
                 deleteat!( depend_sets, intersected_set_id )
                 set_l = length( depend_sets )
             end
@@ -67,13 +69,15 @@ function orthonormalize( K  )
     row_num = size( K, 1 )
     S_sigma = scale( K )
     K_star = S_sigma * K * ( S_sigma' )
-    G = 1*Matrix(I, row_num, row_num )
+    G = 1.0*Matrix(I, row_num, row_num )
     for irow = 1:row_num
         # orthogonalize
         G[ irow, 1:( irow - 1 ) ] = - K_star[ irow, 1:( irow - 1 ) ]
     end
     # normalize
     S_sigma = G*S_sigma
-    S_sigma = S_sigma./diag( S_sigma )
+    S_sigma = S_sigma./sqrt.(diag( S_sigma * K * ( S_sigma' ) ) )
     return S_sigma
+end
+
 end

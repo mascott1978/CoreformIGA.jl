@@ -15,4 +15,5 @@ include("Formulation1DSolid.jl")
 include("Viz.jl")
 include("ContinuousComponent.jl")
 include("Assembler.jl")
+include("Precondition.jl")
 end
